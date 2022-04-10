@@ -2,12 +2,12 @@
  * @Author: MomoTori
  * @Date: 2022-04-09 15:18:40
  * @LastEditors: MomoTori
- * @LastEditTime: 2022-04-10 10:59:13
- * @FilePath: \undefinedd:\CodeTry\ChattingBot\doc\基础IO内容.md
+ * @LastEditTime: 2022-04-10 12:13:58
+ * @FilePath: /ChattingBot/doc/基础IO内容.md
  * @Description: 
  * Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 -->
-- [ ] 储存当前的输入
+- [x] 储存当前的输入
 - [ ] 输出回复的内容
 - [ ] 对输入的内容做一定的处理
 - [ ] 例如除去标点符号

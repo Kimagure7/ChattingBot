@@ -2,7 +2,7 @@
  * @Author: MomoTori
  * @Date: 2022-04-10 11:46:31
  * @LastEditors: MomoTori
- * @LastEditTime: 2022-04-10 12:07:08
+ * @LastEditTime: 2022-04-10 12:21:35
  * @FilePath: /ChattingBot/basic/include/log.h
  * 
  * 
@@ -34,10 +34,14 @@ private:
 public:
     //构造函数
     log();
-    //输入内容
+    
+    //请把bot输出和用户输入的话都push到log里面，以便后面GUI中log回溯
     void push(const std::string & s,enum logType type);
 
-    //输出
+    /**
+     * @description: 输出对话log的list
+     * @return 对话log的list，是一个list型数据类型，每个单元是logNode类型数据，logNode有两个成员，一个是string为对话内容，另一个是logType为是谁说的话
+     */    
     const std::list<logNode>& getList();
 };
 
