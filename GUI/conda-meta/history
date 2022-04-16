@@ -1,0 +1,15 @@
+==> 2022-04-16 15:08:27 <==
+# cmd: E:\Miniconda3\Scripts\conda-script.py create -p E:\documents\Project Code\ChattingBot\GUI -y python=3.8
+# conda version: 4.12.0
++defaults/noarch::wheel-0.37.1-pyhd3eb1b0_0
++defaults/win-64::ca-certificates-2022.3.29-haa95532_0
++defaults/win-64::certifi-2021.10.8-py38haa95532_2
++defaults/win-64::openssl-1.1.1n-h2bbff1b_0
++defaults/win-64::pip-21.2.2-py38haa95532_0
++defaults/win-64::python-3.8.13-h6244533_0
++defaults/win-64::setuptools-61.2.0-py38haa95532_0
++defaults/win-64::sqlite-3.38.2-h2bbff1b_0
++defaults/win-64::vc-14.2-h21ff451_1
++defaults/win-64::vs2015_runtime-14.27.29016-h5e58377_2
++defaults/win-64::wincertstore-0.2-py38haa95532_2
+# update specs: ['python=3.8']
