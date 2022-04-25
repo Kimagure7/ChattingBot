@@ -2,8 +2,8 @@
  * @Author: MomoTori
  * @Date: 2022-04-09 15:18:40
  * @LastEditors: MomoTori
- * @LastEditTime: 2022-04-10 12:13:58
- * @FilePath: /ChattingBot/doc/基础IO内容.md
+ * @LastEditTime: 2022-04-21 10:44:29
+ * @FilePath: \ChattingBot\doc\基础IO内容.md
  * @Description: 
  * Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 -->
@@ -22,3 +22,5 @@
 - [ ] 判断当前输入与上一次输入是否相同
 - [ ] 判断当前的输入和上一次输入是否类似
 - [ ] 获得用户输入
+
+- [ ] 编写make文档
