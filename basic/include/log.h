@@ -2,7 +2,7 @@
  * @Author: MomoTori
  * @Date: 2022-04-10 11:46:31
  * @LastEditors: MomoTori
- * @LastEditTime: 2022-04-10 12:21:35
+ * @LastEditTime: 2022-04-25 19:00:32
  * @FilePath: /ChattingBot/basic/include/log.h
  * 
  * 
@@ -11,6 +11,8 @@
  * 
  * Copyright (c) 2022 by MomoTori, All Rights Reserved. 
  */
+
+#pragma once
 #include<string>
 #include<list>
 
@@ -18,7 +20,7 @@ enum logType{Rob,Customer};
 
 struct logNode
 {
-    enum logType type; //对话类型
+    enum logType type; //对话类型（来自用户or机器人）
     std::string str;    //对应内容
     //构造函数
     logNode(const std::string & s,enum logType type);
