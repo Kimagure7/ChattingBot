@@ -163,7 +163,7 @@ int IO()
 	} 
 	else if( match(string,"主人") || match(string,"作者"))
 	{
-	 	printf("我的主人把我造出路就不管我了 呜呜呜呜\n\n");
+	 	printf("我的主人把我造出来就不管我了 呜呜呜呜\n\n");
 	} 
 	
 	else if( match(string,"github")|| match(string,"源代码"))
