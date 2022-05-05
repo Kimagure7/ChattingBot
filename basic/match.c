@@ -1,5 +1,5 @@
 #include"include/match.h"
-int* match(char* string1,char* string2) //string1为输入的字符串，string2为我们想要匹配的字符串
+int match(char* string1,char* string2) //string1为输入的字符串，string2为我们想要匹配的字符串
 {
 	/*char string1[10];
 	char string2[10];
@@ -9,26 +9,20 @@ int* match(char* string1,char* string2) //string1为输入的字符串，string2
 	len1=strlen(string1);
 	len2=strlen(string2);
 	int n1=0 , n2=0 ,same=0;
-	for(;n1<len1;n1++)
+	while(string1[n1]!='\0')
 	{
-		for(n2=0;n2<len2;n2++){
-		    if(string1[n1]==string2[n2])
-			same++;    //计算相同字符的个数
+		if(string1[n1]==string2[n2]){
+			same++;
+			while(string1[++n1]==string2[++n2]){
+				if(string2[n2]!='\0')
+					same++;
+			}
 		}
+		n1++;
 	}
-
-	//int result[2];
-	//!!危险，Local变量return其指针会造成指针指向未分配的内存
-	
-	int *result=malloc(2*sizeof(int));
-	
-	result[0]=(len2==same); //result第1位返回这两个字符串是否完全相同
-	result[1]=same; //result第二位返回这两个字符串相同的有几位
-	/*for(int i=0;i<2;i++)
-	printf("%d\n",result[i]);
-	return 0; *///测试用
-
-	//注意该对象最后需要delete!!!!!!!!!!
-
-	return result;
+	if(same==len2) 
+		return 1; //匹配成功 就返回1
+	else
+		return 0; //匹配失败 就返回0
 }
+
