@@ -131,7 +131,7 @@ int IO()
 			else if( 2 == message ) 
 			{
 				printf("小冰 快来救我！\n\n");
-				system("start https://cn.bing.com/"); 			//打开【百度一下，你就知道】  	
+				system("start https://cn.bing.com/"); 		
 				printf("下面请微软小冰为你回答（逃）\n\n");
 			
 			 } 
