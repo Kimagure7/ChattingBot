@@ -5,7 +5,7 @@
 
 int IO()
 {
-	 ; //用户和机器人的聊天内容 
+	//用户和机器人的聊天内容 
 	
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole,FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_INTENSITY); //创建用户气泡 
