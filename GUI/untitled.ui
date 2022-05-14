@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>ChattingBot</class>
+ <widget class="QMainWindow" name="ChattingBot">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,34 +14,63 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Enter">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>290</y>
+      <x>457</x>
+      <y>440</y>
+      <width>81</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>发送（Enter)</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="OutputText">
+    <property name="geometry">
+     <rect>
+      <x>71</x>
+      <y>41</y>
+      <width>471</width>
+      <height>291</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="InputText">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>350</y>
+      <width>471</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>330</y>
+      <width>471</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="close">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>440</y>
       <width>75</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>50</y>
-      <width>256</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="html">
-     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;kimagure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>关闭</string>
     </property>
    </widget>
   </widget>
@@ -54,9 +83,112 @@ p, li { white-space: pre-wrap; }
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="options">
+    <property name="title">
+     <string>options</string>
+    </property>
+    <widget class="QMenu" name="mode">
+     <property name="title">
+      <string>mode</string>
+     </property>
+     <addaction name="basic"/>
+     <addaction name="DeepLearning"/>
+     <addaction name="API"/>
+    </widget>
+    <addaction name="mode"/>
+   </widget>
+   <addaction name="options"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="basic">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>basic</string>
+   </property>
+   <property name="toolTip">
+    <string>基于字符串匹配实现</string>
+   </property>
+  </action>
+  <action name="DeepLearning">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>DeepLearning</string>
+   </property>
+   <property name="toolTip">
+    <string>基于Pytorch实现</string>
+   </property>
+  </action>
+  <action name="API">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>API</string>
+   </property>
+   <property name="toolTip">
+    <string>基于API调用实现</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>Enter</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>InputText</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>497</x>
+     <y>473</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>305</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>close</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>ChattingBot</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>407</x>
+     <y>473</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>DeepLearning</sender>
+   <signal>triggered()</signal>
+   <receiver>InputText</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>305</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
