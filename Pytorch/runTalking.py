@@ -1,16 +1,29 @@
 '''
 Author: MomoTori
+Date: 2022-05-17 21:18:11
+LastEditors: MomoTori
+LastEditTime: 2022-05-17 22:17:42
+FilePath: \ChattingBot\Pytorch\runTalking.py
+Description: 
+Copyright (c) 2022 by MomoTori, All Rights Reserved. 
+'''
+
+
+'''
+Author: MomoTori
 Date: 2022-05-14 15:21:38
 LastEditors: MomoTori
-LastEditTime: 2022-05-17 21:50:54
+LastEditTime: 2022-05-17 21:42:19
 FilePath: \ChattingBot\Pytorch\run.py
 Description: 
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
+
+
 from header import *
 
-""" dataProcessing """
 
+""" dataProcessing """
 
 # Splits each line of the file into a dictionary of fields
 def loadLines(fileName, fields):
@@ -599,7 +612,6 @@ def evaluateInput(encoder, decoder, searcher, voc):
 """ main """
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
-print(device)
 
 corpus_name = "cornell movie-dialogs corpus"
 corpus = os.path.join("data", corpus_name)
@@ -617,60 +629,17 @@ conversations = []
 MOVIE_LINES_FIELDS = ["lineID", "characterID", "movieID", "character", "text"]
 MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "utteranceIDs"]
 
-# Load lines and process conversations
-print("\nProcessing corpus...")
-lines = loadLines(os.path.join(corpus, "movie_lines.txt"), MOVIE_LINES_FIELDS)
-print("\nLoading conversations...")
-conversations = loadConversations(os.path.join(corpus, "movie_conversations.txt"),
-                                  lines, MOVIE_CONVERSATIONS_FIELDS)
-
-# Write new csv file
-print("\nWriting newly formatted file...")
-with open(datafile, 'w', encoding='utf-8') as outputfile:
-    writer = csv.writer(outputfile, delimiter=delimiter, lineterminator='\n')
-    for pair in extractSentencePairs(conversations):
-        writer.writerow(pair)
-
-# Print a sample of lines
-print("\nSample lines from file:")
-printLines(datafile)
-
 # Load/Assemble voc and pairs
 save_dir = os.path.join("data", "save")
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
-# Print some pairs to validate
-print("\npairs:")
-for pair in pairs[:10]:
-    print(pair)
-
-MIN_COUNT = 3    # Minimum word count threshold for trimming
-
-# Trim voc and pairs
-pairs = trimRareWords(voc, pairs, MIN_COUNT)
-
-
-
-
-
-# Example for validation
-small_batch_size = 5
-batches = batch2TrainData(voc, [random.choice(pairs) for _ in range(small_batch_size)])
-input_variable, lengths, target_variable, mask, max_target_len = batches
-
-print("input_variable:", input_variable)
-print("lengths:", lengths)
-print("target_variable:", target_variable)
-print("mask:", mask)
-print("max_target_len:", max_target_len)
-
+voc, pairs = (Voc(corpus_name),{})
 
 
 # Set checkpoint to load from; set to None if starting from scratch
-loadFilename = None
+#loadFilename = None
 checkpoint_iter = 4000
-#loadFilename = os.path.join(save_dir, model_name, corpus_name,
-#                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
-#                            '{}_checkpoint.tar'.format(checkpoint_iter))
+loadFilename = os.path.join(save_dir, model_name, corpus_name,
+                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
+                            '{}_checkpoint.tar'.format(checkpoint_iter))
 
 
 
@@ -688,7 +657,6 @@ if loadFilename:
     voc.__dict__ = checkpoint['voc_dict']
 
 
-print('Building encoder and decoder ...')
 # Initialize word embeddings
 embedding = nn.Embedding(voc.num_words, hidden_size)
 if loadFilename:
@@ -702,26 +670,15 @@ if loadFilename:
 # Use appropriate device
 encoder = encoder.to(device)
 decoder = decoder.to(device)
-print('Models built and ready to go!')
 
 
-# Ensure dropout layers are in train mode
-encoder.train()
-decoder.train()
+# Set dropout layers to eval mode
+encoder.eval()
+decoder.eval()
 
-# Initialize optimizers
-print('Building optimizers ...')
-encoder_optimizer = optim.Adam(encoder.parameters(), lr=learning_rate)
-decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate * decoder_learning_ratio)
-if loadFilename:
-    encoder_optimizer.load_state_dict(encoder_optimizer_sd)
-    decoder_optimizer.load_state_dict(decoder_optimizer_sd)
+# Initialize search module
+searcher = GreedySearchDecoder(encoder, decoder)
 
-# Run training iterations
-print("Starting Training!")
-trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer,
-           embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size,
-           print_every, save_every, clip, corpus_name, loadFilename)
-
-
-print("Training Finished!")
+# Begin chatting (uncomment and run the following line to begin)
+print("Bot: Let's begin!")
+evaluateInput(encoder, decoder, searcher, voc)
