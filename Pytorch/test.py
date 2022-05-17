@@ -1,52 +1,84 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+from header import *
+
+USE_CUDA = torch.cuda.is_available()
+device = torch.device("cuda" if USE_CUDA else "cpu")
+print(device)
+
+corpus_name = "cornell movie-dialogs corpus"
+corpus = os.path.join("data", corpus_name)
 
 
-class Net(nn.Module):
-
-    def __init__(self):
-        super(Net, self).__init__()
-        # 1 input image channel, 6 output channels, 5x5 square convolution
-        # kernel
-        self.conv1 = nn.Conv2d(1, 6, 5)
-        self.conv2 = nn.Conv2d(6, 16, 5)
-        # an affine operation: y = Wx + b
-        self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, 10)
-
-    def forward(self, x):
-        # Max pooling over a (2, 2) window
-
-        x = F.max_pool2d(F.relu(self.conv1(x)), (2, 2))
-        # If the size is a square you can only specify a single number
-        x = F.max_pool2d(F.relu(self.conv2(x)), 2)
-        x = x.view(-1, self.num_flat_features(x))
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        return x
-
-    def num_flat_features(self, x):
-        size = x.size()[1:]  # all dimensions except the batch dimension
-        num_features = 1
-        for s in size:
-            num_features *= s
-        return num_features
+def printLines(file, n=10):
+    with open(file, encoding='iso-8859-1') as datafile:
+        for i, line in enumerate(datafile):
+            if i < n:
+                print(line)
 
 
-net = Net()
-print(net)
-input = torch.randn(1, 1, 32, 32)
+printLines(os.path.join(corpus, "movie_lines.txt"))
 
-output = net(input)
-target = torch.randn(10)  # a dummy target, for example
-target = target.view(1, -1)  # make it the same shape as output
-criterion = nn.MSELoss()
+# Splits each line of the file into a dictionary of fields
+def loadLines(fileName, fields):
+    lines = {}
+    with open(fileName, encoding='iso-8859-1') as f:
+        for line in f:
+            values = line.split(" +++$+++ ")
+            # Extract fields
+            lineObj = {}
+            for i, field in enumerate(fields):
+                lineObj[field] = values[i]
+            lines[lineObj['lineID']] = lineObj
+    return lines
 
-loss = criterion(output, target)
-print(loss)
-print(loss.grad_fn)  # MSELoss
-print(loss.grad_fn.next_functions[0][0])  # Linear
-print(loss.grad_fn.next_functions[0][0].next_functions[0][0])  # ReLU
+
+# Groups fields of lines from `loadLines` into conversations based on *movie_conversations.txt*
+def loadConversations(fileName, lines, fields):
+    conversations = []
+    with open(fileName, encoding='iso-8859-1') as f:
+        for line in f:
+            values = line.split(" +++$+++ ")
+            # Extract fields
+            convObj = {}
+            for i, field in enumerate(fields):
+                convObj[field] = values[i]
+            # Convert string to list (convObj["utteranceIDs"] == "['L598485', 'L598486', ...]")
+            lineIds = eval(convObj["utteranceIDs"])
+            # Reassemble lines
+            convObj["lines"] = []
+            for lineId in lineIds:
+                convObj["lines"].append(lines[lineId])
+            conversations.append(convObj)
+    return conversations
+
+
+# Extracts pairs of sentences from conversations
+def extractSentencePairs(conversations):
+    qa_pairs = []
+    for conversation in conversations:
+        # Iterate over all the lines of the conversation
+        for i in range(len(conversation["lines"]) - 1):  # We ignore the last line (no answer for it)
+            inputLine = conversation["lines"][i]["text"].strip()
+            targetLine = conversation["lines"][i+1]["text"].strip()
+            # Filter wrong samples (if one of the lists is empty)
+            if inputLine and targetLine:
+                qa_pairs.append([inputLine, targetLine])
+    return qa_pairs
+
+
+
+# Define path to new file
+datafile = os.path.join(corpus, "formatted_movie_lines.txt")
+
+delimiter = '\t'
+# Unescape the delimiter
+delimiter = str(codecs.decode(delimiter, "unicode_escape"))
+
+# Initialize lines dict, conversations list, and field ids
+lines = {}
+conversations = []
+MOVIE_LINES_FIELDS = ["lineID", "characterID", "movieID", "character", "text"]
+MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "utteranceIDs"]
+
+# Load lines and process conversations
+print("\nProcessing corpus...")
+lines = loadLines(os.path.join(corpus, "movie_lines.txt"), MOVIE_LINES_FIELDS)
