@@ -25,7 +25,7 @@ def chat(text: str, user: str) -> str:
     }
     raw = requests.post(API_URL,json.dumps(data))
     records = json.loads(raw.text)['results']  # 得到API返回的一条条回复
-
+    # print(records)
     ans = ''  # 最终的结果
 
     for record in records:
