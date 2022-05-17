@@ -82,3 +82,17 @@ MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "uttera
 # Load lines and process conversations
 print("\nProcessing corpus...")
 lines = loadLines(os.path.join(corpus, "movie_lines.txt"), MOVIE_LINES_FIELDS)
+print("\nLoading conversations...")
+conversations = loadConversations(os.path.join(corpus, "movie_conversations.txt"),
+                                  lines, MOVIE_CONVERSATIONS_FIELDS)
+
+# Write new csv file
+print("\nWriting newly formatted file...")
+with open(datafile, 'w', encoding='utf-8') as outputfile:
+    writer = csv.writer(outputfile, delimiter=delimiter, lineterminator='\n')
+    for pair in extractSentencePairs(conversations):
+        writer.writerow(pair)
+
+# Print a sample of lines
+print("\nSample lines from file:")
+printLines(datafile)
