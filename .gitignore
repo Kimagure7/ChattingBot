@@ -1,0 +1,5 @@
+.vscode/
+.vscode
+cppjieba/
+Pytorch/data/save
+Pytorch/__pycache__
