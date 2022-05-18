@@ -8,18 +8,6 @@ Description:
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
 
-
-'''
-Author: MomoTori
-Date: 2022-05-14 15:21:38
-LastEditors: MomoTori
-LastEditTime: 2022-05-17 21:42:19
-FilePath: \ChattingBot\Pytorch\run.py
-Description: 
-Copyright (c) 2022 by MomoTori, All Rights Reserved. 
-'''
-
-
 from header import *
 
 
