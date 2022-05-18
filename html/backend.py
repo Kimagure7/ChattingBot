@@ -1,4 +1,5 @@
 from flask import Flask,request,send_from_directory
+import bot
 
 with open('index.html','r',encoding='utf-8') as f:
     pagetext=f.read()
@@ -40,7 +41,7 @@ def nn(msg):
 
 #handle api
 def api(msg):
-    return 'api mode message'
+    return bot.chat(msg,'me')
 
 
 

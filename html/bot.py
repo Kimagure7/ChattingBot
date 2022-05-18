@@ -12,7 +12,7 @@ import json
 import requests
 API_URL = 'http://openapi.turingapi.com/openapi/api/v2'
 KEY = 'c70f2778ff35474e93cb8b11195030d0'
-# key 5-24到期 每日可使用条数100条
+# key 6-24到期 每日可使用条数100条
 
 def chat(text: str, user: str) -> str:
     data = {
