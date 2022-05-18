@@ -3,8 +3,8 @@
 Author: MomoTori
 Date: 2022-05-14 15:21:38
 LastEditors: MomoTori
-LastEditTime: 2022-05-18 11:29:32
-FilePath: \Pytorch copy\run.py
+LastEditTime: 2022-05-18 21:34:41
+FilePath: \ChattingBot\Final\Ctrain.py
 Description: 
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
@@ -101,7 +101,7 @@ MAX_LENGTH = 20  # Maximum sentence length to consider
 # Lowercase, trim, and remove non-letter characters
 def normalizeString(s):
     s=' '.join(jieba.cut(s, cut_all=True))
-    s = re.sub(r"([.!?。，”“、？：；！])", r" \1", s)
+    s = re.sub(r"([.!?。，”“、？：；！…~])", r" \1", s)
     s = re.sub(r"\s+", r" ", s).strip()
     return s
 
@@ -561,11 +561,11 @@ USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 print(device)
 
-corpus_name = "qingyun"
+corpus_name = "lightNovel"
 corpus = os.path.join("data", corpus_name)
 
 # Define path to new file
-datafile = os.path.join(corpus, "qingyun.tsv")
+datafile = os.path.join(corpus, "lightNovel.txt")
 
 delimiter = '\t'
 # Unescape the delimiter
