@@ -538,7 +538,8 @@ def talk(x:str) -> str:
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
-corpus_name = "qingyun"
+# corpus_name = "qingyun"
+corpus_name = "lightNovel"
 corpus = os.path.join("data", corpus_name)
 
 delimiter = '\t'
@@ -559,7 +560,7 @@ voc=Voc(corpus_name)
 
 # Set checkpoint to load from; set to None if starting from scratch
 #loadFilename = None
-checkpoint_iter = 4000
+checkpoint_iter = 8000
 loadFilename = os.path.join(save_dir, model_name, corpus_name,
                             '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
                             '{}_checkpoint.tar'.format(checkpoint_iter))

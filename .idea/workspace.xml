@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="752b4148-baf1-4fc1-b870-647c90388ecd" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final/final.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final/final.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/Ctalk.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final/Ctalk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/Ctrain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final/Ctrain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/header.py" beforeDir="false" afterPath="$PROJECT_DIR$/Final/header.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final/run.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final/runTalking.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Ctrain" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ChattingBot" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Final" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Final/Ctrain.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Etalk" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ChattingBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -106,27 +126,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="run (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ChattingBot" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Pytorch copy" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Pytorch copy/run.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="runTalking (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ChattingBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,10 +150,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.final" />
+        <item itemvalue="Python.Ctrain" />
         <item itemvalue="Python.Ctalk" />
         <item itemvalue="Python.Etalk" />
         <item itemvalue="Python.runTalking (2)" />
-        <item itemvalue="Python.run (1)" />
       </list>
     </recent_temporary>
   </component>
