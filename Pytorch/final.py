@@ -2,8 +2,8 @@ import sys
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from runTalking import *
-import bot, runTalking
+# from runTalking import *
+import bot
 
 class Ui_ChattingBot(object):
 
@@ -160,9 +160,8 @@ def dlChat(x:str) -> str:
     pass
 
 if __name__ == '__main__':
-    # app = QApplication(sys.argv)
-    # myw = QMainWindow()
-    # Ui_ChattingBot().setupUi(myw)
-    # myw.show()
-    # sys.exit(app.exec())
-    pass
+    app = QApplication(sys.argv)
+    myw = QMainWindow()
+    Ui_ChattingBot().setupUi(myw)
+    myw.show()
+    sys.exit(app.exec())
