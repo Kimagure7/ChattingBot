@@ -2,8 +2,9 @@ import sys
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QApplication, QMainWindow
-# from runTalking import *
+import Ctalk, Etalk
 import bot
+
 
 class Ui_ChattingBot(object):
 
@@ -137,12 +138,14 @@ class Ui_ChattingBot(object):
             self.OutputText.setText('由于编码问题 该模块不可用')
             return
         if state == 2:
-            self.OutputText.setText('还没弄好')
-            return
+            if is_en(content[0]):
+                result = DLEChat(content)
+            else:
+                result = DLCChat(content)
         if state == 3:
             result = apiChat(content)
 
-        ans = 'You:'+content+'\nBot:'+result # ans为最终回复
+        ans = 'You:' + content + '\nBot:' + result  # ans为最终回复
         self.OutputText.setText(ans)
 
     def getState(self) -> int:
@@ -153,11 +156,27 @@ class Ui_ChattingBot(object):
         if self.basic.isChecked():
             return 1
 
-def apiChat(x:str) -> str:
-    return bot.chat(x,'me')
 
-def dlChat(x:str) -> str:
-    pass
+def apiChat(x: str) -> str:
+    return bot.chat(x, 'me')
+
+
+def DLEChat(x: str) -> str:
+    """英文版深度学习"""
+    return Etalk.talk(x)
+
+
+def DLCChat(x: str) -> str:
+    """中文版深度学习"""
+    return Ctalk.talk(x)
+
+
+def is_en(w) -> bool:
+    if 'a' <= w <= 'z' or 'A' <= w <= 'Z':
+        return True
+    else:
+        return False
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

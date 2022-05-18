@@ -1,20 +1,10 @@
-'''
-Author: MomoTori
-Date: 2022-05-17 21:18:11
-LastEditors: MomoTori
-LastEditTime: 2022-05-17 22:17:42
-FilePath: \ChattingBot\Pytorch\runTalking.py
-Description: 
-Copyright (c) 2022 by MomoTori, All Rights Reserved. 
-'''
-
-
+# coding=utf-8
 '''
 Author: MomoTori
 Date: 2022-05-14 15:21:38
 LastEditors: MomoTori
-LastEditTime: 2022-05-17 21:42:19
-FilePath: \ChattingBot\Pytorch\run.py
+LastEditTime: 2022-05-18 11:29:32
+FilePath: \Pytorch copy\run.py
 Description: 
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
@@ -22,41 +12,8 @@ Copyright (c) 2022 by MomoTori, All Rights Reserved.
 
 from header import *
 
-
 """ dataProcessing """
 
-# Splits each line of the file into a dictionary of fields
-def loadLines(fileName, fields):
-    lines = {}
-    with open(fileName, encoding='iso-8859-1') as f:
-        for line in f:
-            values = line.split(" +++$+++ ")
-            # Extract fields
-            lineObj = {}
-            for i, field in enumerate(fields):
-                lineObj[field] = values[i]
-            lines[lineObj['lineID']] = lineObj
-    return lines
-
-
-# Groups fields of lines from `loadLines` into conversations based on *movie_conversations.txt*
-def loadConversations(fileName, lines, fields):
-    conversations = []
-    with open(fileName, encoding='iso-8859-1') as f:
-        for line in f:
-            values = line.split(" +++$+++ ")
-            # Extract fields
-            convObj = {}
-            for i, field in enumerate(fields):
-                convObj[field] = values[i]
-            # Convert string to list (convObj["utteranceIDs"] == "['L598485', 'L598486', ...]")
-            lineIds = eval(convObj["utteranceIDs"])
-            # Reassemble lines
-            convObj["lines"] = []
-            for lineId in lineIds:
-                convObj["lines"].append(lines[lineId])
-            conversations.append(convObj)
-    return conversations
 
 
 # Extracts pairs of sentences from conversations
@@ -73,7 +30,7 @@ def extractSentencePairs(conversations):
     return qa_pairs
 
 def printLines(file, n=10):
-    with open(file, encoding='iso-8859-1') as datafile:
+    with open(file, encoding='utf-8') as datafile:
         for i, line in enumerate(datafile):
             if i < n:
                 print(line)
@@ -139,21 +96,12 @@ class Voc:
 
 
 
-MAX_LENGTH = 10  # Maximum sentence length to consider
-
-# Turn a Unicode string to plain ASCII, thanks to
-# https://stackoverflow.com/a/518232/2809427
-def unicodeToAscii(s):
-    return ''.join(
-        c for c in unicodedata.normalize('NFD', s)
-        if unicodedata.category(c) != 'Mn'
-    )
+MAX_LENGTH = 20  # Maximum sentence length to consider
 
 # Lowercase, trim, and remove non-letter characters
 def normalizeString(s):
-    s = unicodeToAscii(s.lower().strip())
-    s = re.sub(r"([.!?])", r" \1", s)
-    s = re.sub(r"[^a-zA-Z.!?]+", r" ", s)
+    s=' '.join(jieba.cut(s, cut_all=True))
+    s = re.sub(r"([.!?。，”“、？：；！])", r" \1", s)
     s = re.sub(r"\s+", r" ", s).strip()
     return s
 
@@ -260,7 +208,6 @@ def outputVar(l, voc):
 
 # Returns all items for a given batch of pairs
 def batch2TrainData(voc, pair_batch):
-    #按照输入句子词数排序？
     pair_batch.sort(key=lambda x: len(x[0].split(" ")), reverse=True)
     input_batch, output_batch = [], []
     for pair in pair_batch:
@@ -605,41 +552,68 @@ def evaluateInput(encoder, decoder, searcher, voc):
             print("Error: Encountered unknown word.")
 
 
-def run():
-    evaluateInput(encoder, decoder, searcher, voc)
+
+
 
 
 """ main """
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
+print(device)
 
-corpus_name = "cornell movie-dialogs corpus"
+corpus_name = "qingyun"
 corpus = os.path.join("data", corpus_name)
 
 # Define path to new file
-datafile = os.path.join(corpus, "formatted_movie_lines.txt")
+datafile = os.path.join(corpus, "qingyun.tsv")
 
 delimiter = '\t'
 # Unescape the delimiter
 delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
-# Initialize lines dict, conversations list, and field ids
 lines = {}
 conversations = []
-MOVIE_LINES_FIELDS = ["lineID", "characterID", "movieID", "character", "text"]
-MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "utteranceIDs"]
+
+# Print a sample of lines
+print("\nSample lines from file:")
+printLines(datafile)
 
 # Load/Assemble voc and pairs
 save_dir = os.path.join("data", "save")
-voc, pairs = (Voc(corpus_name),{})
+voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
+# Print some pairs to validate
+print("\npairs:")
+for pair in pairs[:10]:
+    print(pair)
+
+MIN_COUNT = 3    # Minimum word count threshold for trimming
+
+# Trim voc and pairs
+pairs = trimRareWords(voc, pairs, MIN_COUNT)
+
+
+
+
+
+# Example for validation
+small_batch_size = 5
+batches = batch2TrainData(voc, [random.choice(pairs) for _ in range(small_batch_size)])
+input_variable, lengths, target_variable, mask, max_target_len = batches
+
+print("input_variable:", input_variable)
+print("lengths:", lengths)
+print("target_variable:", target_variable)
+print("mask:", mask)
+print("max_target_len:", max_target_len)
+
 
 
 # Set checkpoint to load from; set to None if starting from scratch
-#loadFilename = None
+loadFilename = None
 checkpoint_iter = 4000
-loadFilename = os.path.join(save_dir, model_name, corpus_name,
-                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
-                            '{}_checkpoint.tar'.format(checkpoint_iter))
+#loadFilename = os.path.join(save_dir, model_name, corpus_name,
+#                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
+#                            '{}_checkpoint.tar'.format(checkpoint_iter))
 
 
 
@@ -657,6 +631,7 @@ if loadFilename:
     voc.__dict__ = checkpoint['voc_dict']
 
 
+print('Building encoder and decoder ...')
 # Initialize word embeddings
 embedding = nn.Embedding(voc.num_words, hidden_size)
 if loadFilename:
@@ -670,15 +645,26 @@ if loadFilename:
 # Use appropriate device
 encoder = encoder.to(device)
 decoder = decoder.to(device)
+print('Models built and ready to go!')
 
 
-# Set dropout layers to eval mode
-encoder.eval()
-decoder.eval()
+# Ensure dropout layers are in train mode
+encoder.train()
+decoder.train()
 
-# Initialize search module
-searcher = GreedySearchDecoder(encoder, decoder)
+# Initialize optimizers
+print('Building optimizers ...')
+encoder_optimizer = optim.Adam(encoder.parameters(), lr=learning_rate)
+decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate * decoder_learning_ratio)
+if loadFilename:
+    encoder_optimizer.load_state_dict(encoder_optimizer_sd)
+    decoder_optimizer.load_state_dict(decoder_optimizer_sd)
 
-# Begin chatting (uncomment and run the following line to begin)
-print("Bot: Let's begin!")
-run()
+# Run training iterations
+print("Starting Training!")
+trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer,
+           embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size,
+           print_every, save_every, clip, corpus_name, loadFilename)
+
+
+print("Training Finished!")

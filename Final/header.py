@@ -2,8 +2,8 @@
 Author: MomoTori
 Date: 2022-05-14 17:03:19
 LastEditors: MomoTori
-LastEditTime: 2022-05-17 21:41:35
-FilePath: \ChattingBot\Pytorch\header.py
+LastEditTime: 2022-05-18 10:03:58
+FilePath: \Pytorch copy\header.py
 Description: 
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
@@ -23,6 +23,7 @@ import codecs
 from io import open
 import itertools
 import math
+import jieba
 
 
 # Configure training/optimization
