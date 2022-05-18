@@ -4,7 +4,7 @@
 
 Bot文件就是api里面的
 
-DeepLearning 有中英文版本 E=English C=Chinese final.py为客户端主模块,backend为网页端主模块
+DeepLearning 有中英文版本 E=English C=Chinese final.py为客户端主模块,backend.py为网页端主模块
 
 index.html resource文件夹 backend.py都是html文件夹下稍作更改(用于整合)得到的
 
