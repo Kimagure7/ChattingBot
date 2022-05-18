@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="resource/css.css" rel="stylesheet">
+    <!-- <link href="resource/materialdesignicons.min.css" rel="stylesheet"> -->
+    <link href="resource/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-main>
+                <v-container fluid class="pa-0">
+                    <v-row class="text-center">
+                        <v-col class="my-12" cols="12">
+                            <!-- 标题 -->
+                            <h1 class="display-2 font-weight-bold my-6 lime--text text--lighten-5">Chatbot</h1>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="3"></v-col>
+                        <v-col cols="6" sm="6" justify="center">
+                            <v-card class="mx-auto">
+                                <v-container>
+
+                                    <!-- 模式选择 -->
+                                    <v-select :items="items" v-model="mode" label="Mode"></v-select>
+
+                                    <!-- 文本输入 -->
+                                    <v-textarea v-model="msg" clearable clear-icon="mdi-close-circle"
+                                        label="Input text here">
+                                    </v-textarea>
+
+                                    <!-- 发送按钮 -->
+                                    <v-card-actions>
+                                        <v-btn color="deep-purple lighten-2" text @click="send">
+                                            Send
+                                        </v-btn>
+                                    </v-card-actions>
+
+
+                                </v-container>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="3"></v-col>
+                    </v-row>
+
+                    <!-- 机器人回复，初始状况下不显示 -->
+                    <v-row v-if="show_response">
+                        <v-col cols="3"></v-col>
+                        <v-col cols="6" sm="6" justify="center">
+                            <v-card class="mx-auto">
+                                <v-card-text class="pb-0">
+
+
+                                    <!-- 机器人回复 -->
+                                    <p class="subtitle-1">
+                                        {{response}}
+                                    </p>
+
+                                </v-card-text>
+                                <br>
+                            </v-card>
+                        </v-col>
+                        <v-col cols="3"></v-col>
+                    </v-row>
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <style>
+        /* 设置背景 */
+        #app {
+            background: url('resource/bg2.png') no-repeat center;
+            background-size: cover;
+        }
+    </style>
+    <!-- 引用的代码 -->
+    <script src="resource/jquery.min.js"></script>
+    <script src="resource/vue.js"></script>
+    <script src="resource/vuetify.js"></script>
+
+
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify({
+                theme: { dark: true },//设置黑色主题
+            }),
+
+            data: () => ({
+                items: ["Default", "Neural Network", "API"],//模式
+                mode: "Default",//所选的模式，默认为Default
+                msg: "Hello",//用户输入，默认为Hello
+                response: "",//后台返回的数据
+                show_response: false,//是否显示机器人回复的那个组件，用户还没发信息的时候就先不显示
+            }),
+            methods: {
+                send() {//发消息
+                    this.show_response = true//开始显示机器人的回复
+                    var that = this
+                    $.get("/chat", { msg: this.msg, mode: this.mode }).then(data => that.response = data)
+                    console.log(this.mode)
+                    console.log(this.msg)
+                },
+            },
+        })
+    </script>
+</body>
+
+</html>
