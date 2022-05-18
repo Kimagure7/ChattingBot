@@ -3,3 +3,5 @@
 cppjieba/
 Pytorch/data/save
 Pytorch/__pycache__
+.idea
+.GUI/.idea
