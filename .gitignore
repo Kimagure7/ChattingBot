@@ -8,4 +8,5 @@ Pytorch copy/__pycache__
 final/data/save
 final/__pycache__
 .idea
+.idea/
 .GUI/.idea
