@@ -1,5 +1,6 @@
 from flask import Flask,request,send_from_directory
 import bot
+import Ctalk, Etalk
 
 with open('index.html','r',encoding='utf-8') as f:
     pagetext=f.read()
@@ -33,11 +34,13 @@ def send_report(path):
 
 # handle default
 def default(msg):
-    return 'default mode message'
+    #英文深度学习
+    return Etalk.talk(msg)
 
 # handle neural network
 def nn(msg):
-    return 'nn mode message'
+    #中文深度学习
+    return Ctalk.talk(msg)
 
 #handle api
 def api(msg):
