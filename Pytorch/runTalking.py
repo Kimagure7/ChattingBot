@@ -2,16 +2,85 @@
 Author: MomoTori
 Date: 2022-05-17 21:18:11
 LastEditors: MomoTori
-LastEditTime: 2022-05-17 23:02:13
+LastEditTime: 2022-05-17 22:17:42
 FilePath: \ChattingBot\Pytorch\runTalking.py
 Description: 
 Copyright (c) 2022 by MomoTori, All Rights Reserved. 
 '''
 
+
+'''
+Author: MomoTori
+Date: 2022-05-14 15:21:38
+LastEditors: MomoTori
+LastEditTime: 2022-05-17 21:42:19
+FilePath: \ChattingBot\Pytorch\run.py
+Description: 
+Copyright (c) 2022 by MomoTori, All Rights Reserved. 
+'''
+
+
 from header import *
 
 
 """ dataProcessing """
+
+# Splits each line of the file into a dictionary of fields
+def loadLines(fileName, fields):
+    lines = {}
+    with open(fileName, encoding='iso-8859-1') as f:
+        for line in f:
+            values = line.split(" +++$+++ ")
+            # Extract fields
+            lineObj = {}
+            for i, field in enumerate(fields):
+                lineObj[field] = values[i]
+            lines[lineObj['lineID']] = lineObj
+    return lines
+
+
+# Groups fields of lines from `loadLines` into conversations based on *movie_conversations.txt*
+def loadConversations(fileName, lines, fields):
+    conversations = []
+    with open(fileName, encoding='iso-8859-1') as f:
+        for line in f:
+            values = line.split(" +++$+++ ")
+            # Extract fields
+            convObj = {}
+            for i, field in enumerate(fields):
+                convObj[field] = values[i]
+            # Convert string to list (convObj["utteranceIDs"] == "['L598485', 'L598486', ...]")
+            lineIds = eval(convObj["utteranceIDs"])
+            # Reassemble lines
+            convObj["lines"] = []
+            for lineId in lineIds:
+                convObj["lines"].append(lines[lineId])
+            conversations.append(convObj)
+    return conversations
+
+
+# Extracts pairs of sentences from conversations
+def extractSentencePairs(conversations):
+    qa_pairs = []
+    for conversation in conversations:
+        # Iterate over all the lines of the conversation
+        for i in range(len(conversation["lines"]) - 1):  # We ignore the last line (no answer for it)
+            inputLine = conversation["lines"][i]["text"].strip()
+            targetLine = conversation["lines"][i+1]["text"].strip()
+            # Filter wrong samples (if one of the lists is empty)
+            if inputLine and targetLine:
+                qa_pairs.append([inputLine, targetLine])
+    return qa_pairs
+
+def printLines(file, n=10):
+    with open(file, encoding='iso-8859-1') as datafile:
+        for i, line in enumerate(datafile):
+            if i < n:
+                print(line)
+
+
+#voc class 将词分解为矢量
+
 
 # Default word tokens
 PAD_token = 0  # Used for padding short sentences
@@ -536,8 +605,8 @@ def evaluateInput(encoder, decoder, searcher, voc):
             print("Error: Encountered unknown word.")
 
 
-
-
+def run():
+    evaluateInput(encoder, decoder, searcher, voc)
 
 
 """ main """
@@ -546,6 +615,9 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 
 corpus_name = "cornell movie-dialogs corpus"
 corpus = os.path.join("data", corpus_name)
+
+# Define path to new file
+datafile = os.path.join(corpus, "formatted_movie_lines.txt")
 
 delimiter = '\t'
 # Unescape the delimiter
@@ -559,8 +631,7 @@ MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "uttera
 
 # Load/Assemble voc and pairs
 save_dir = os.path.join("data", "save")
-
-voc=Voc(corpus_name)
+voc, pairs = (Voc(corpus_name),{})
 
 
 # Set checkpoint to load from; set to None if starting from scratch
@@ -610,4 +681,4 @@ searcher = GreedySearchDecoder(encoder, decoder)
 
 # Begin chatting (uncomment and run the following line to begin)
 print("Bot: Let's begin!")
-evaluateInput(encoder, decoder, searcher, voc)
+run()
