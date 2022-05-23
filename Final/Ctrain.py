@@ -561,11 +561,12 @@ USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 print(device)
 
-corpus_name = "lightNovel"
+# corpus_name = "lightNovel"
+corpus_name = "qingyun"
 corpus = os.path.join("data", corpus_name)
 
 # Define path to new file
-datafile = os.path.join(corpus, "lightNovel.txt")
+datafile = os.path.join(corpus, "qingyun.tsv")
 
 delimiter = '\t'
 # Unescape the delimiter

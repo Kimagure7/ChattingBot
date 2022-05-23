@@ -538,8 +538,8 @@ def talk(x:str) -> str:
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
-# corpus_name = "qingyun"
-corpus_name = "lightNovel"
+corpus_name = "qingyun"
+# corpus_name = "lightNovel"
 corpus = os.path.join("data", corpus_name)
 
 delimiter = '\t'
