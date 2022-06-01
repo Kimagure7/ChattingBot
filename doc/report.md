@@ -19,7 +19,8 @@
 ## 组员
 
 - 马俊杰        (Mahiru)
-  - 完成
+  - 完成html前端设计及其python后端设计
+  - 完成api调用模块
 - 杨涛          (Momo Tori)
 - 殷尘龙
 - 赵子毅        (Kimagure)
