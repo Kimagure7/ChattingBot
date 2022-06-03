@@ -1,19 +1,39 @@
 # ChattingBot 实验报告
 
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
 - [ChattingBot 实验报告](#chattingbot-实验报告)
   - [组员](#组员)
   - [基于字符串匹配的basic部分](#基于字符串匹配的basic部分)
   - [基于Pytorch的深度学习部分](#基于pytorch的深度学习部分)
+    - [了解深度学习原理及Seq2Seq模型](#了解深度学习原理及seq2seq模型)
+    - [英文聊天机器人](#英文聊天机器人)
+      - [环境搭建](#环境搭建)
+      - [训练集处理](#训练集处理)
+      - [模型构建](#模型构建)
+      - [定义训练过程](#定义训练过程)
+    - [中文聊天机器人](#中文聊天机器人)
+      - [分词](#分词)
+      - [数据处理](#数据处理)
+    - [不同训练集](#不同训练集)
+      - [青云语料](#青云语料)
+      - [自己处理的小说对话](#自己处理的小说对话)
   - [基于调用api的api部分](#基于调用api的api部分)
   - [GUI界面](#gui界面)
     - [按钮位置定义](#按钮位置定义)
     - [菜单栏定义](#菜单栏定义)
-    - [按钮名字、提示符、快捷键定义](#按钮名字提示符快捷键定义)
+    - [按钮名字、提示符、快捷键定义](#按钮名字-提示符-快捷键定义)
     - [按钮事件定义](#按钮事件定义)
     - [其他修改](#其他修改)
   - [html界面](#html界面)
     - [前端部分](#前端部分)
     - [后端部分](#后端部分)
+
+<!-- /code_chunk_output -->
+
 
 
 ## 组员
@@ -21,7 +41,10 @@
 - 马俊杰        (Mahiru)
   - 完成html前端设计及其python后端设计
   - 完成api调用模块
-- 杨涛          (Momo Tori)
+- 杨涛          (MomoTori)
+    - 实现英文聊天机器人
+    - 实现中文聊天机器人
+    - 尝试不同的中文训练集
 - 殷尘龙
 - 赵子毅        (Kimagure)
   - 独立完成GUI界面
@@ -31,6 +54,140 @@
 ## 基于字符串匹配的basic部分
 
 ## 基于Pytorch的深度学习部分
+
+### 了解深度学习原理及Seq2Seq模型
+
+笔者主要通过3B1B的视频讲解来了解深度学习原理([中文翻译频道](https://space.bilibili.com/88461692/search/video?keyword=%E5%AD%A6%E4%B9%A0))，从中了解了深度学习的过程大致如下：
+
+- 分析应用场景，并根据场景构建合适的模型
+- 设计训练过程，根据误差进行反向传播，更新参数
+- 进行训练
+- 测试训练成果
+
+而聊天机器人常用的模型为Seq2Seq模型，将可变长度序列作为输入，并使用固定大小的模型将可变长度序列作为输出返回。
+
+### 英文聊天机器人
+
+因为能力限制，主要参考下面的教程来搭建机器人，并且理解并不一定符合事实，希望助教见谅
+
+英文：https://pytorch.org/tutorials/beginner/chatbot_tutorial.html
+
+中文翻译：https://tanbro.github.io/pytorch-tutorials-notebooks-zhs/beginner/chatbot_tutorial
+
+该教程包含了数据处理、模型构建、训练定义以及模型的运行，在阅读代码之后将各个模块分块，可以得到 train 和 talk 两个部分，分别对应训练模型和运行训练好的模型
+
+#### 环境搭建
+
+需要安装CUDA和pytorch库（和一块GPU）
+
+#### 训练集处理
+
+训练集的格式为：
+
+```
+a b c \t e f g
+a b c \t e f g
+```
+
+通过空格` `进行词的区分，并且通过转移符号`\t`区分问题与回复，每一行为一个问答
+
+程序将文件读入后，建立一个`Voc`类来对每个词汇进行索引，这样就将词汇映射为索引值，这样就能够转化为 `pytorch` 能够处理的张量形式
+
+#### 模型构建
+
+教程中的大致模型如下
+
+![](https://pytorch.org/tutorials/_images/seq2seq_ts.png)
+
+同时，`encoder` 和 `decoder` 中的单向 `GUR` 改用双向 `GUR` ，可以直接调用 `pytorch` 的 `nn.GRU` 组件实现，并且在 `decoder` 中使用“注意力机制”，允许解码器只关注输入序列的某些部分，以提高输出的准确率
+
+![](https://pytorch.org/tutorials/_images/global_attn.png)
+
+#### 定义训练过程
+
+因为输入进行了批量填充，所以损失函数需要根据损失掩码计算对应于掩码向量中1的元素的负对数相似度
+
+```py
+def maskNLLLoss(inp, target, mask):
+    nTotal = mask.sum()
+    crossEntropy = -torch.log(torch.gather(inp, 1, target.view(-1, 1)).squeeze(1))
+    loss = crossEntropy.masked_select(mask).mean()
+    loss = loss.to(device)
+    return loss, nTotal.item()
+```
+
+在定义了损失函数之后，就可以用 `pytorch` 的函数进行反向传播调整参数
+
+### 中文聊天机器人
+
+#### 分词
+
+考虑到英文自带空格进行词汇的划分，如果要实现中文聊天机器人，则首先需要做中文的划分
+
+在这里的解决方法是调用 `jieba` 库来进行分词，并在词语中间插入空格实现原英文机器人空格分词的效果，具体实现为
+
+```py
+str=' '.join(jieba.cut(s, cut_all=True))
+```
+
+#### 数据处理
+
+以从小说中截取对话为例，日本轻小说以符号 `「` 作为对话的开头，为了截取对话需要探测两行都是以 `「` 开头的文段，并将其截取下来处理为 `a \t b`的形式，处理如下
+
+```py
+line1=""
+line2=""
+lineList=[]
+
+def dataProcessing(fileName):
+    with open(fileName,"r",encoding="utf=8") as input:
+        while True:
+            line1=input.readline()  # 带有'\n'
+            if line1=="":           
+                break               # 文件结束
+            line1=line1.strip()
+            if line1=="":
+                continue
+            if line1[0]=="「":
+                line2=input.readline()  # 匹配第二个"「"
+                if line2=="":
+                    break
+                line2=line2.strip()
+                if line2=="":
+                    continue
+                if line2[0]=="「":
+                    line1=line1[1:-1]
+                    line2=line2[1:-1]
+                    lineList.append(line1.strip()+"\t"+line2.strip())
+
+    with open("de"+fileName,"w",encoding="utf=8") as out:
+        for line in lineList:
+            out.write(line+"\n")
+```
+
+之后调整 `train.py` 中文件编码格式、字符处理等一些细节就可以开始训练中文聊天机器人了
+
+### 不同训练集
+
+#### 英文电影对话
+
+原教程所用的训练集，可以看出基本有些许智能
+
+![](image/3.png)
+
+#### 青云语料
+
+来自于某聊天机器人交流群，对话较为生活化，因此效果较好
+
+在这里截取一些比较正常的回复，但虽然勉强可以看懂回复的意思，回复的噪音依然很大，带有许多乱码以及不符合中文语法的句子
+
+![](image/1.png)
+
+#### 自己处理的小说对话
+
+因为训练集大部分截取自奇幻小说，和剧情的关系性很强，这就导致了用日常对话来输入基本无法得到想要的结果，而且回复的基本都是某些前后连贯性和剧情性很强的连句
+
+![](image/2.png)
 
 ## 基于调用api的api部分
 
