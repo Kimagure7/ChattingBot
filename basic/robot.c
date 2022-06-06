@@ -2,7 +2,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
-
+#include <wchar.h>
+#include <locale.h>
 int match(char* string1,char* string2) //string1为输入的字符串，string2为我们想要匹配的字符串
 {
 	/*char string1[10];
@@ -32,21 +33,58 @@ int match(char* string1,char* string2) //string1为输入的字符串，string2�
 	else
 		return 0; //匹配失败 就返回0
 }
+/* ANSI-UTF-8转换函数  */
+/*
+//定义输入长度，宽字符长度，utf-8长度
+int  in_size,wide_size,utf8_size;
+ 
+//定义宽字符串与utf-8字符串
+wchar_t * wide_string;
+char * utf8_string;
+ 
+char* trans(char* input_string) {
+in_size= strlen(input_string);
+ 
+ 
+/*映射一个字符串到一个宽字符（unicode）的字符串。由该函数映射的字符串没必要是多字节字符组。
+   CP_ACP：ANSI代码页（简体中文Windows操作系统中，ANSI 编码代表 GBK 编码）*/
+//先获取宽字符串长度并创建，再以实际值执行函数
+/*
+wide_size=MultiByteToWideChar(CP_ACP, 0, input_string, in_size, NULL, 0);
+wide_string = (wchar_t * ) malloc(wide_size*sizeof(wchar_t));
+MultiByteToWideChar(CP_ACP, 0, input_string, in_size, wide_string, wide_size);
+ 
+ 
+/*把宽字符串转换成指定的新的字符串，如ANSI，UTF8等，新字符串不必是多字节字符集。 
+   CP_UTF8：使用UTF-8转换*/
+/*
+utf8_size = WideCharToMultiByte(CP_UTF8, 0, wide_string, wide_size, NULL, 0, NULL, NULL);
+utf8_string = (char * ) malloc(utf8_size);
+WideCharToMultiByte(CP_UTF8, 0, wide_string, wide_size, utf8_string, utf8_size, NULL, NULL);
+ 
+
+printf("转换前：%s \n", input_string);//debug
+printf("转换后：%s",utf8_string); //debug
+
+free(wide_string);
+return(utf8_string);
+free(utf8_string);
+}
+*/
 
 int IO()
 {
-	 ; //用户和机器人的聊天内容 
-	
+	//用户和机器人的聊天内容
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole,FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_INTENSITY); //创建用户气泡 
 	printf("USER:"); 
 	
 	int message ;
-	char string[50] = {0};
+	char string[50]={0};
 	
 	gets(string); //获取聊天内容 
 	printf("\n");
-	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY); //创建机器人气泡 
+	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 
 	if(match(string,"不"))
 	{
@@ -340,8 +378,6 @@ int IO()
 				printf("红豆泥四姨马赛 我没明白你的意思...\n\n");
 			}
 	}
- 
-	
 	return 0;
  } 
 
