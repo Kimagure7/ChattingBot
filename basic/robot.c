@@ -158,7 +158,6 @@ int IO()
 	{
 	 	printf("我的才智怎么能用在这！你自己用计算器算吧\n\n");
 	 	system("calc");	//打开计算器 
-	 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);//系统提示气泡 
 	 	printf("机器人并不想回答 并扔给你一个计算器\n\n");
 	}
 	else if( match(string,"算了") )
@@ -238,7 +237,6 @@ int IO()
 	{
 	 	printf("啊哈哈哈 源代码喽\n\n");
 	 	system("start https://github.com/Kimagure7/ChattingBot");
-	 	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);//系统提示气泡 
 		printf("这源代码来了 怎么还不看呢？他乃乃的 玩阴的是吧！\n\n"); 
 	} 
 	else if( match(string,"密码") ) 
