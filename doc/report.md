@@ -1,112 +1,116 @@
-# ChattingBot ÊµÑé±¨¸æ
+# ChattingBot å®éªŒæŠ¥å‘Š
 
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
 
-- [ChattingBot ÊµÑé±¨¸æ](#chattingbot-ÊµÑé±¨¸æ)
-  - [×éÔ±](#×éÔ±)
-  - [»ùÓÚ×Ö·û´®Æ¥ÅäµÄbasic²¿·Ö](#»ùÓÚ×Ö·û´®Æ¥ÅäµÄbasic²¿·Ö)
-  - [»ùÓÚPytorchµÄÉî¶ÈÑ§Ï°²¿·Ö](#»ùÓÚpytorchµÄÉî¶ÈÑ§Ï°²¿·Ö)
-    - [ÁË½âÉî¶ÈÑ§Ï°Ô­Àí¼°Seq2SeqÄ£ĞÍ](#ÁË½âÉî¶ÈÑ§Ï°Ô­Àí¼°seq2seqÄ£ĞÍ)
-    - [Ó¢ÎÄÁÄÌì»úÆ÷ÈË](#Ó¢ÎÄÁÄÌì»úÆ÷ÈË)
-      - [»·¾³´î½¨](#»·¾³´î½¨)
-      - [ÑµÁ·¼¯´¦Àí](#ÑµÁ·¼¯´¦Àí)
-      - [Ä£ĞÍ¹¹½¨](#Ä£ĞÍ¹¹½¨)
-      - [¶¨ÒåÑµÁ·¹ı³Ì](#¶¨ÒåÑµÁ·¹ı³Ì)
-    - [ÖĞÎÄÁÄÌì»úÆ÷ÈË](#ÖĞÎÄÁÄÌì»úÆ÷ÈË)
-      - [·Ö´Ê](#·Ö´Ê)
-      - [Êı¾İ´¦Àí](#Êı¾İ´¦Àí)
-    - [²»Í¬ÑµÁ·¼¯](#²»Í¬ÑµÁ·¼¯)
-      - [Ó¢ÎÄµçÓ°¶Ô»°](#Ó¢ÎÄµçÓ°¶Ô»°)
-      - [ÇàÔÆÓïÁÏ](#ÇàÔÆÓïÁÏ)
-      - [×Ô¼º´¦ÀíµÄĞ¡Ëµ¶Ô»°](#×Ô¼º´¦ÀíµÄĞ¡Ëµ¶Ô»°)
-  - [»ùÓÚµ÷ÓÃapiµÄapi²¿·Ö](#»ùÓÚµ÷ÓÃapiµÄapi²¿·Ö)
-  - [GUI½çÃæ](#gui½çÃæ)
-    - [°´Å¥Î»ÖÃ¶¨Òå](#°´Å¥Î»ÖÃ¶¨Òå)
-    - [²Ëµ¥À¸¶¨Òå](#²Ëµ¥À¸¶¨Òå)
-    - [°´Å¥Ãû×Ö¡¢ÌáÊ¾·û¡¢¿ì½İ¼ü¶¨Òå](#°´Å¥Ãû×ÖÌáÊ¾·û¿ì½İ¼ü¶¨Òå)
-    - [°´Å¥ÊÂ¼ş¶¨Òå](#°´Å¥ÊÂ¼ş¶¨Òå)
-    - [ÆäËûĞŞ¸Ä](#ÆäËûĞŞ¸Ä)
-  - [html½çÃæ](#html½çÃæ)
-    - [Ç°¶Ë²¿·Ö](#Ç°¶Ë²¿·Ö)
-    - [ºó¶Ë²¿·Ö](#ºó¶Ë²¿·Ö)
+- [ChattingBot å®éªŒæŠ¥å‘Š](#chattingbot-å®éªŒæŠ¥å‘Š)
+  - [ç»„å‘˜](#ç»„å‘˜)
+  - [åŸºäºå­—ç¬¦ä¸²åŒ¹é…çš„basicéƒ¨åˆ†](#åŸºäºå­—ç¬¦ä¸²åŒ¹é…çš„basicéƒ¨åˆ†)
+  - [åŸºäºPytorchçš„æ·±åº¦å­¦ä¹ éƒ¨åˆ†](#åŸºäºpytorchçš„æ·±åº¦å­¦ä¹ éƒ¨åˆ†)
+    - [äº†è§£æ·±åº¦å­¦ä¹ åŸç†åŠSeq2Seqæ¨¡å‹](#äº†è§£æ·±åº¦å­¦ä¹ åŸç†åŠseq2seqæ¨¡å‹)
+    - [è‹±æ–‡èŠå¤©æœºå™¨äºº](#è‹±æ–‡èŠå¤©æœºå™¨äºº)
+      - [ç¯å¢ƒæ­å»º](#ç¯å¢ƒæ­å»º)
+      - [è®­ç»ƒé›†å¤„ç†](#è®­ç»ƒé›†å¤„ç†)
+      - [æ¨¡å‹æ„å»º](#æ¨¡å‹æ„å»º)
+      - [å®šä¹‰è®­ç»ƒè¿‡ç¨‹](#å®šä¹‰è®­ç»ƒè¿‡ç¨‹)
+    - [ä¸­æ–‡èŠå¤©æœºå™¨äºº](#ä¸­æ–‡èŠå¤©æœºå™¨äºº)
+      - [åˆ†è¯](#åˆ†è¯)
+      - [æ•°æ®å¤„ç†](#æ•°æ®å¤„ç†)
+    - [ä¸åŒè®­ç»ƒé›†](#ä¸åŒè®­ç»ƒé›†)
+      - [è‹±æ–‡ç”µå½±å¯¹è¯](#è‹±æ–‡ç”µå½±å¯¹è¯)
+      - [é’äº‘è¯­æ–™](#é’äº‘è¯­æ–™)
+      - [è‡ªå·±å¤„ç†çš„å°è¯´å¯¹è¯](#è‡ªå·±å¤„ç†çš„å°è¯´å¯¹è¯)
+  - [åŸºäºè°ƒç”¨apiçš„apiéƒ¨åˆ†](#åŸºäºè°ƒç”¨apiçš„apiéƒ¨åˆ†)
+  - [GUIç•Œé¢](#guiç•Œé¢)
+    - [æŒ‰é’®ä½ç½®å®šä¹‰](#æŒ‰é’®ä½ç½®å®šä¹‰)
+    - [èœå•æ å®šä¹‰](#èœå•æ å®šä¹‰)
+    - [æŒ‰é’®åå­—ã€æç¤ºç¬¦ã€å¿«æ·é”®å®šä¹‰](#æŒ‰é’®åå­—æç¤ºç¬¦å¿«æ·é”®å®šä¹‰)
+    - [æŒ‰é’®äº‹ä»¶å®šä¹‰](#æŒ‰é’®äº‹ä»¶å®šä¹‰)
+    - [å…¶ä»–ä¿®æ”¹](#å…¶ä»–ä¿®æ”¹)
+  - [htmlç•Œé¢](#htmlç•Œé¢)
+    - [å‰ç«¯éƒ¨åˆ†](#å‰ç«¯éƒ¨åˆ†)
+    - [åç«¯éƒ¨åˆ†](#åç«¯éƒ¨åˆ†)
 
 <!-- /code_chunk_output -->
 
 
 
-## ×éÔ±
+## ç»„å‘˜
 
-- Âí¿¡½Ü        (Mahiru)
-  - Íê³ÉhtmlÇ°¶ËÉè¼Æ¼°Æäpythonºó¶ËÉè¼Æ
-  - Íê³Éapiµ÷ÓÃÄ£¿é
-- ÑîÌÎ          (MomoTori)
-    - ÊµÏÖÓ¢ÎÄÁÄÌì»úÆ÷ÈË
-    - ÊµÏÖÖĞÎÄÁÄÌì»úÆ÷ÈË
-    - ³¢ÊÔ²»Í¬µÄÖĞÎÄÑµÁ·¼¯
-- Òó³¾Áú
-- ÕÔ×ÓÒã        (Kimagure)
-  - ¶ÀÁ¢Íê³ÉGUI½çÃæ
-  - ĞŞ¸ÄPytorchÄ£¿é½Ó¿Ú Ê¹ÆäÄÜ±»GUIµ÷ÓÃ
-  - ²ÎÓëÑ§Ï°PytorchÔ­Àí
+- é©¬ä¿Šæ°        (Mahiru)
+  - å®Œæˆhtmlå‰ç«¯è®¾è®¡åŠå…¶pythonåç«¯è®¾è®¡
+  - å®Œæˆapiè°ƒç”¨æ¨¡å—
+- æ¨æ¶›          (MomoTori)
+    - å®ç°è‹±æ–‡èŠå¤©æœºå™¨äºº
+    - å®ç°ä¸­æ–‡èŠå¤©æœºå™¨äºº
+    - å°è¯•ä¸åŒçš„ä¸­æ–‡è®­ç»ƒé›†
+- æ®·å°˜é¾™
+  - å®ŒæˆåŸºäºå­—ç¬¦ä¸²åŒ¹é…çš„åŸºç¡€I/O
+  -	å®ŒæˆWindowsç³»ç»Ÿä¸‹çš„æ°”æ³¡è®¾è®¡ä¸åŸºäºé—®ç­”çš„apiè°ƒç”¨
+  -	å®ŒæˆWindowsç³»ç»Ÿä¸‹å°†è¾“å…¥è½¬ä¸ºutf-8ç¼–ç çš„åŠŸèƒ½
 
-## »ùÓÚ×Ö·û´®Æ¥ÅäµÄbasic²¿·Ö
+- èµµå­æ¯…        (Kimagure)
+  - ç‹¬ç«‹å®ŒæˆGUIç•Œé¢
+  - ä¿®æ”¹Pytorchæ¨¡å—æ¥å£ ä½¿å…¶èƒ½è¢«GUIè°ƒç”¨
+  - å‚ä¸å­¦ä¹ PytorchåŸç†
 
-## »ùÓÚPytorchµÄÉî¶ÈÑ§Ï°²¿·Ö
+## åŸºäºå­—ç¬¦ä¸²åŒ¹é…çš„basicéƒ¨åˆ†
 
-### ÁË½âÉî¶ÈÑ§Ï°Ô­Àí¼°Seq2SeqÄ£ĞÍ
+## åŸºäºPytorchçš„æ·±åº¦å­¦ä¹ éƒ¨åˆ†
 
-±ÊÕßÖ÷ÒªÍ¨¹ı3B1BµÄÊÓÆµ½²½âÀ´ÁË½âÉî¶ÈÑ§Ï°Ô­Àí([ÖĞÎÄ·­ÒëÆµµÀ](https://space.bilibili.com/88461692/search/video?keyword=%E5%AD%A6%E4%B9%A0))£¬´ÓÖĞÁË½âÁËÉî¶ÈÑ§Ï°µÄ¹ı³Ì´óÖÂÈçÏÂ£º
+### äº†è§£æ·±åº¦å­¦ä¹ åŸç†åŠSeq2Seqæ¨¡å‹
 
-- ·ÖÎöÓ¦ÓÃ³¡¾°£¬²¢¸ù¾İ³¡¾°¹¹½¨ºÏÊÊµÄÄ£ĞÍ
-- Éè¼ÆÑµÁ·¹ı³Ì£¬¸ù¾İÎó²î½øĞĞ·´Ïò´«²¥£¬¸üĞÂ²ÎÊı
-- ½øĞĞÑµÁ·
-- ²âÊÔÑµÁ·³É¹û
+ç¬”è€…ä¸»è¦é€šè¿‡3B1Bçš„è§†é¢‘è®²è§£æ¥äº†è§£æ·±åº¦å­¦ä¹ åŸç†([ä¸­æ–‡ç¿»è¯‘é¢‘é“](https://space.bilibili.com/88461692/search/video?keyword=%E5%AD%A6%E4%B9%A0))ï¼Œä»ä¸­äº†è§£äº†æ·±åº¦å­¦ä¹ çš„è¿‡ç¨‹å¤§è‡´å¦‚ä¸‹ï¼š
 
-¶øÁÄÌì»úÆ÷ÈË³£ÓÃµÄÄ£ĞÍÎªSeq2SeqÄ£ĞÍ£¬½«¿É±ä³¤¶ÈĞòÁĞ×÷ÎªÊäÈë£¬²¢Ê¹ÓÃ¹Ì¶¨´óĞ¡µÄÄ£ĞÍ½«¿É±ä³¤¶ÈĞòÁĞ×÷ÎªÊä³ö·µ»Ø¡£
+- åˆ†æåº”ç”¨åœºæ™¯ï¼Œå¹¶æ ¹æ®åœºæ™¯æ„å»ºåˆé€‚çš„æ¨¡å‹
+- è®¾è®¡è®­ç»ƒè¿‡ç¨‹ï¼Œæ ¹æ®è¯¯å·®è¿›è¡Œåå‘ä¼ æ’­ï¼Œæ›´æ–°å‚æ•°
+- è¿›è¡Œè®­ç»ƒ
+- æµ‹è¯•è®­ç»ƒæˆæœ
 
-### Ó¢ÎÄÁÄÌì»úÆ÷ÈË
+è€ŒèŠå¤©æœºå™¨äººå¸¸ç”¨çš„æ¨¡å‹ä¸ºSeq2Seqæ¨¡å‹ï¼Œå°†å¯å˜é•¿åº¦åºåˆ—ä½œä¸ºè¾“å…¥ï¼Œå¹¶ä½¿ç”¨å›ºå®šå¤§å°çš„æ¨¡å‹å°†å¯å˜é•¿åº¦åºåˆ—ä½œä¸ºè¾“å‡ºè¿”å›ã€‚
 
-ÒòÎªÄÜÁ¦ÏŞÖÆ£¬Ö÷Òª²Î¿¼ÏÂÃæµÄ½Ì³ÌÀ´´î½¨»úÆ÷ÈË£¬²¢ÇÒÀí½â²¢²»Ò»¶¨·ûºÏÊÂÊµ£¬Ï£ÍûÖú½Ì¼ûÁÂ
+### è‹±æ–‡èŠå¤©æœºå™¨äºº
 
-Ó¢ÎÄ£ºhttps://pytorch.org/tutorials/beginner/chatbot_tutorial.html
+å› ä¸ºèƒ½åŠ›é™åˆ¶ï¼Œä¸»è¦å‚è€ƒä¸‹é¢çš„æ•™ç¨‹æ¥æ­å»ºæœºå™¨äººï¼Œå¹¶ä¸”ç†è§£å¹¶ä¸ä¸€å®šç¬¦åˆäº‹å®ï¼Œå¸Œæœ›åŠ©æ•™è§è°…
 
-ÖĞÎÄ·­Òë£ºhttps://tanbro.github.io/pytorch-tutorials-notebooks-zhs/beginner/chatbot_tutorial
+è‹±æ–‡ï¼šhttps://pytorch.org/tutorials/beginner/chatbot_tutorial.html
 
-¸Ã½Ì³Ì°üº¬ÁËÊı¾İ´¦Àí¡¢Ä£ĞÍ¹¹½¨¡¢ÑµÁ·¶¨ÒåÒÔ¼°Ä£ĞÍµÄÔËĞĞ£¬ÔÚÔÄ¶Á´úÂëÖ®ºó½«¸÷¸öÄ£¿é·Ö¿é£¬¿ÉÒÔµÃµ½ train ºÍ talk Á½¸ö²¿·Ö£¬·Ö±ğ¶ÔÓ¦ÑµÁ·Ä£ĞÍºÍÔËĞĞÑµÁ·ºÃµÄÄ£ĞÍ
+ä¸­æ–‡ç¿»è¯‘ï¼šhttps://tanbro.github.io/pytorch-tutorials-notebooks-zhs/beginner/chatbot_tutorial
 
-#### »·¾³´î½¨
+è¯¥æ•™ç¨‹åŒ…å«äº†æ•°æ®å¤„ç†ã€æ¨¡å‹æ„å»ºã€è®­ç»ƒå®šä¹‰ä»¥åŠæ¨¡å‹çš„è¿è¡Œï¼Œåœ¨é˜…è¯»ä»£ç ä¹‹åå°†å„ä¸ªæ¨¡å—åˆ†å—ï¼Œå¯ä»¥å¾—åˆ° train å’Œ talk ä¸¤ä¸ªéƒ¨åˆ†ï¼Œåˆ†åˆ«å¯¹åº”è®­ç»ƒæ¨¡å‹å’Œè¿è¡Œè®­ç»ƒå¥½çš„æ¨¡å‹
 
-ĞèÒª°²×°CUDAºÍpytorch¿â£¨ºÍÒ»¿éGPU£©
+#### ç¯å¢ƒæ­å»º
 
-#### ÑµÁ·¼¯´¦Àí
+éœ€è¦å®‰è£…CUDAå’Œpytorchåº“ï¼ˆå’Œä¸€å—GPUï¼‰
 
-ÑµÁ·¼¯µÄ¸ñÊ½Îª£º
+#### è®­ç»ƒé›†å¤„ç†
+
+è®­ç»ƒé›†çš„æ ¼å¼ä¸ºï¼š
 
 ```
 a b c \t e f g
 a b c \t e f g
 ```
 
-Í¨¹ı¿Õ¸ñ` `½øĞĞ´ÊµÄÇø·Ö£¬²¢ÇÒÍ¨¹ı×ªÒÆ·ûºÅ`\t`Çø·ÖÎÊÌâÓë»Ø¸´£¬Ã¿Ò»ĞĞÎªÒ»¸öÎÊ´ğ
+é€šè¿‡ç©ºæ ¼` `è¿›è¡Œè¯çš„åŒºåˆ†ï¼Œå¹¶ä¸”é€šè¿‡è½¬ç§»ç¬¦å·`\t`åŒºåˆ†é—®é¢˜ä¸å›å¤ï¼Œæ¯ä¸€è¡Œä¸ºä¸€ä¸ªé—®ç­”
 
-³ÌĞò½«ÎÄ¼ş¶ÁÈëºó£¬½¨Á¢Ò»¸ö`Voc`ÀàÀ´¶ÔÃ¿¸ö´Ê»ã½øĞĞË÷Òı£¬ÕâÑù¾Í½«´Ê»ãÓ³ÉäÎªË÷ÒıÖµ£¬ÕâÑù¾ÍÄÜ¹»×ª»¯Îª `pytorch` ÄÜ¹»´¦ÀíµÄÕÅÁ¿ĞÎÊ½
+ç¨‹åºå°†æ–‡ä»¶è¯»å…¥åï¼Œå»ºç«‹ä¸€ä¸ª`Voc`ç±»æ¥å¯¹æ¯ä¸ªè¯æ±‡è¿›è¡Œç´¢å¼•ï¼Œè¿™æ ·å°±å°†è¯æ±‡æ˜ å°„ä¸ºç´¢å¼•å€¼ï¼Œè¿™æ ·å°±èƒ½å¤Ÿè½¬åŒ–ä¸º `pytorch` èƒ½å¤Ÿå¤„ç†çš„å¼ é‡å½¢å¼
 
-#### Ä£ĞÍ¹¹½¨
+#### æ¨¡å‹æ„å»º
 
-½Ì³ÌÖĞµÄ´óÖÂÄ£ĞÍÈçÏÂ
+æ•™ç¨‹ä¸­çš„å¤§è‡´æ¨¡å‹å¦‚ä¸‹
 
 ![](https://pytorch.org/tutorials/_images/seq2seq_ts.png)
 
-Í¬Ê±£¬`encoder` ºÍ `decoder` ÖĞµÄµ¥Ïò `GUR` ¸ÄÓÃË«Ïò `GUR` £¬¿ÉÒÔÖ±½Óµ÷ÓÃ `pytorch` µÄ `nn.GRU` ×é¼şÊµÏÖ£¬²¢ÇÒÔÚ `decoder` ÖĞÊ¹ÓÃ¡°×¢ÒâÁ¦»úÖÆ¡±£¬ÔÊĞí½âÂëÆ÷Ö»¹Ø×¢ÊäÈëĞòÁĞµÄÄ³Ğ©²¿·Ö£¬ÒÔÌá¸ßÊä³öµÄ×¼È·ÂÊ
+åŒæ—¶ï¼Œ`encoder` å’Œ `decoder` ä¸­çš„å•å‘ `GUR` æ”¹ç”¨åŒå‘ `GUR` ï¼Œå¯ä»¥ç›´æ¥è°ƒç”¨ `pytorch` çš„ `nn.GRU` ç»„ä»¶å®ç°ï¼Œå¹¶ä¸”åœ¨ `decoder` ä¸­ä½¿ç”¨â€œæ³¨æ„åŠ›æœºåˆ¶â€ï¼Œå…è®¸è§£ç å™¨åªå…³æ³¨è¾“å…¥åºåˆ—çš„æŸäº›éƒ¨åˆ†ï¼Œä»¥æé«˜è¾“å‡ºçš„å‡†ç¡®ç‡
 
 ![](https://pytorch.org/tutorials/_images/global_attn.png)
 
-#### ¶¨ÒåÑµÁ·¹ı³Ì
+#### å®šä¹‰è®­ç»ƒè¿‡ç¨‹
 
-ÒòÎªÊäÈë½øĞĞÁËÅúÁ¿Ìî³ä£¬ËùÒÔËğÊ§º¯ÊıĞèÒª¸ù¾İËğÊ§ÑÚÂë¼ÆËã¶ÔÓ¦ÓÚÑÚÂëÏòÁ¿ÖĞ1µÄÔªËØµÄ¸º¶ÔÊıÏàËÆ¶È
+å› ä¸ºè¾“å…¥è¿›è¡Œäº†æ‰¹é‡å¡«å……ï¼Œæ‰€ä»¥æŸå¤±å‡½æ•°éœ€è¦æ ¹æ®æŸå¤±æ©ç è®¡ç®—å¯¹åº”äºæ©ç å‘é‡ä¸­1çš„å…ƒç´ çš„è´Ÿå¯¹æ•°ç›¸ä¼¼åº¦
 
 ```py
 def maskNLLLoss(inp, target, mask):
@@ -117,23 +121,23 @@ def maskNLLLoss(inp, target, mask):
     return loss, nTotal.item()
 ```
 
-ÔÚ¶¨ÒåÁËËğÊ§º¯ÊıÖ®ºó£¬¾Í¿ÉÒÔÓÃ `pytorch` µÄº¯Êı½øĞĞ·´Ïò´«²¥µ÷Õû²ÎÊı
+åœ¨å®šä¹‰äº†æŸå¤±å‡½æ•°ä¹‹åï¼Œå°±å¯ä»¥ç”¨ `pytorch` çš„å‡½æ•°è¿›è¡Œåå‘ä¼ æ’­è°ƒæ•´å‚æ•°
 
-### ÖĞÎÄÁÄÌì»úÆ÷ÈË
+### ä¸­æ–‡èŠå¤©æœºå™¨äºº
 
-#### ·Ö´Ê
+#### åˆ†è¯
 
-¿¼ÂÇµ½Ó¢ÎÄ×Ô´ø¿Õ¸ñ½øĞĞ´Ê»ãµÄ»®·Ö£¬Èç¹ûÒªÊµÏÖÖĞÎÄÁÄÌì»úÆ÷ÈË£¬ÔòÊ×ÏÈĞèÒª×öÖĞÎÄµÄ»®·Ö
+è€ƒè™‘åˆ°è‹±æ–‡è‡ªå¸¦ç©ºæ ¼è¿›è¡Œè¯æ±‡çš„åˆ’åˆ†ï¼Œå¦‚æœè¦å®ç°ä¸­æ–‡èŠå¤©æœºå™¨äººï¼Œåˆ™é¦–å…ˆéœ€è¦åšä¸­æ–‡çš„åˆ’åˆ†
 
-ÔÚÕâÀïµÄ½â¾ö·½·¨ÊÇµ÷ÓÃ `jieba` ¿âÀ´½øĞĞ·Ö´Ê£¬²¢ÔÚ´ÊÓïÖĞ¼ä²åÈë¿Õ¸ñÊµÏÖÔ­Ó¢ÎÄ»úÆ÷ÈË¿Õ¸ñ·Ö´ÊµÄĞ§¹û£¬¾ßÌåÊµÏÖÎª
+åœ¨è¿™é‡Œçš„è§£å†³æ–¹æ³•æ˜¯è°ƒç”¨ `jieba` åº“æ¥è¿›è¡Œåˆ†è¯ï¼Œå¹¶åœ¨è¯è¯­ä¸­é—´æ’å…¥ç©ºæ ¼å®ç°åŸè‹±æ–‡æœºå™¨äººç©ºæ ¼åˆ†è¯çš„æ•ˆæœï¼Œå…·ä½“å®ç°ä¸º
 
 ```py
 str=' '.join(jieba.cut(s, cut_all=True))
 ```
 
-#### Êı¾İ´¦Àí
+#### æ•°æ®å¤„ç†
 
-ÒÔ´ÓĞ¡ËµÖĞ½ØÈ¡¶Ô»°ÎªÀı£¬ÈÕ±¾ÇáĞ¡ËµÒÔ·ûºÅ `¡¸` ×÷Îª¶Ô»°µÄ¿ªÍ·£¬ÎªÁË½ØÈ¡¶Ô»°ĞèÒªÌ½²âÁ½ĞĞ¶¼ÊÇÒÔ `¡¸` ¿ªÍ·µÄÎÄ¶Î£¬²¢½«Æä½ØÈ¡ÏÂÀ´´¦ÀíÎª `a \t b`µÄĞÎÊ½£¬´¦ÀíÈçÏÂ
+ä»¥ä»å°è¯´ä¸­æˆªå–å¯¹è¯ä¸ºä¾‹ï¼Œæ—¥æœ¬è½»å°è¯´ä»¥ç¬¦å· `ã€Œ` ä½œä¸ºå¯¹è¯çš„å¼€å¤´ï¼Œä¸ºäº†æˆªå–å¯¹è¯éœ€è¦æ¢æµ‹ä¸¤è¡Œéƒ½æ˜¯ä»¥ `ã€Œ` å¼€å¤´çš„æ–‡æ®µï¼Œå¹¶å°†å…¶æˆªå–ä¸‹æ¥å¤„ç†ä¸º `a \t b`çš„å½¢å¼ï¼Œå¤„ç†å¦‚ä¸‹
 
 ```py
 line1=""
@@ -143,20 +147,20 @@ lineList=[]
 def dataProcessing(fileName):
     with open(fileName,"r",encoding="utf=8") as input:
         while True:
-            line1=input.readline()  # ´øÓĞ'\n'
+            line1=input.readline()  # å¸¦æœ‰'\n'
             if line1=="":           
-                break               # ÎÄ¼ş½áÊø
+                break               # æ–‡ä»¶ç»“æŸ
             line1=line1.strip()
             if line1=="":
                 continue
-            if line1[0]=="¡¸":
-                line2=input.readline()  # Æ¥ÅäµÚ¶ş¸ö"¡¸"
+            if line1[0]=="ã€Œ":
+                line2=input.readline()  # åŒ¹é…ç¬¬äºŒä¸ª"ã€Œ"
                 if line2=="":
                     break
                 line2=line2.strip()
                 if line2=="":
                     continue
-                if line2[0]=="¡¸":
+                if line2[0]=="ã€Œ":
                     line1=line1[1:-1]
                     line2=line2[1:-1]
                     lineList.append(line1.strip()+"\t"+line2.strip())
@@ -166,39 +170,39 @@ def dataProcessing(fileName):
             out.write(line+"\n")
 ```
 
-Ö®ºóµ÷Õû `train.py` ÖĞÎÄ¼ş±àÂë¸ñÊ½¡¢×Ö·û´¦ÀíµÈÒ»Ğ©Ï¸½Ú¾Í¿ÉÒÔ¿ªÊ¼ÑµÁ·ÖĞÎÄÁÄÌì»úÆ÷ÈËÁË
+ä¹‹åè°ƒæ•´ `train.py` ä¸­æ–‡ä»¶ç¼–ç æ ¼å¼ã€å­—ç¬¦å¤„ç†ç­‰ä¸€äº›ç»†èŠ‚å°±å¯ä»¥å¼€å§‹è®­ç»ƒä¸­æ–‡èŠå¤©æœºå™¨äººäº†
 
-### ²»Í¬ÑµÁ·¼¯
+### ä¸åŒè®­ç»ƒé›†
 
-#### Ó¢ÎÄµçÓ°¶Ô»°
+#### è‹±æ–‡ç”µå½±å¯¹è¯
 
-Ô­½Ì³ÌËùÓÃµÄÑµÁ·¼¯£¬¿ÉÒÔ¿´³ö»ù±¾ÓĞĞ©ĞíÖÇÄÜ
+åŸæ•™ç¨‹æ‰€ç”¨çš„è®­ç»ƒé›†ï¼Œå¯ä»¥çœ‹å‡ºåŸºæœ¬æœ‰äº›è®¸æ™ºèƒ½
 
 ![](image/3.png)
 
-#### ÇàÔÆÓïÁÏ
+#### é’äº‘è¯­æ–™
 
-À´×ÔÓÚÄ³ÁÄÌì»úÆ÷ÈË½»Á÷Èº£¬¶Ô»°½ÏÎªÉú»î»¯£¬Òò´ËĞ§¹û½ÏºÃ
+æ¥è‡ªäºæŸèŠå¤©æœºå™¨äººäº¤æµç¾¤ï¼Œå¯¹è¯è¾ƒä¸ºç”Ÿæ´»åŒ–ï¼Œå› æ­¤æ•ˆæœè¾ƒå¥½
 
-ÔÚÕâÀï½ØÈ¡Ò»Ğ©±È½ÏÕı³£µÄ»Ø¸´£¬µ«ËäÈ»ÃãÇ¿¿ÉÒÔ¿´¶®»Ø¸´µÄÒâË¼£¬»Ø¸´µÄÔëÒôÒÀÈ»ºÜ´ó£¬´øÓĞĞí¶àÂÒÂëÒÔ¼°²»·ûºÏÖĞÎÄÓï·¨µÄ¾ä×Ó
+åœ¨è¿™é‡Œæˆªå–ä¸€äº›æ¯”è¾ƒæ­£å¸¸çš„å›å¤ï¼Œä½†è™½ç„¶å‹‰å¼ºå¯ä»¥çœ‹æ‡‚å›å¤çš„æ„æ€ï¼Œå›å¤çš„å™ªéŸ³ä¾ç„¶å¾ˆå¤§ï¼Œå¸¦æœ‰è®¸å¤šä¹±ç ä»¥åŠä¸ç¬¦åˆä¸­æ–‡è¯­æ³•çš„å¥å­
 
 ![](image/1.png)
 
-#### ×Ô¼º´¦ÀíµÄĞ¡Ëµ¶Ô»°
+#### è‡ªå·±å¤„ç†çš„å°è¯´å¯¹è¯
 
-ÒòÎªÑµÁ·¼¯´ó²¿·Ö½ØÈ¡×ÔÆæ»ÃĞ¡Ëµ£¬ºÍ¾çÇéµÄ¹ØÏµĞÔºÜÇ¿£¬Õâ¾Íµ¼ÖÂÁËÓÃÈÕ³£¶Ô»°À´ÊäÈë»ù±¾ÎŞ·¨µÃµ½ÏëÒªµÄ½á¹û£¬¶øÇÒ»Ø¸´µÄ»ù±¾¶¼ÊÇÄ³Ğ©Ç°ºóÁ¬¹áĞÔºÍ¾çÇéĞÔºÜÇ¿µÄÁ¬¾ä
+å› ä¸ºè®­ç»ƒé›†å¤§éƒ¨åˆ†æˆªå–è‡ªå¥‡å¹»å°è¯´ï¼Œå’Œå‰§æƒ…çš„å…³ç³»æ€§å¾ˆå¼ºï¼Œè¿™å°±å¯¼è‡´äº†ç”¨æ—¥å¸¸å¯¹è¯æ¥è¾“å…¥åŸºæœ¬æ— æ³•å¾—åˆ°æƒ³è¦çš„ç»“æœï¼Œè€Œä¸”å›å¤çš„åŸºæœ¬éƒ½æ˜¯æŸäº›å‰åè¿è´¯æ€§å’Œå‰§æƒ…æ€§å¾ˆå¼ºçš„è¿å¥
 
 ![](image/2.png)
 
-## »ùÓÚµ÷ÓÃapiµÄapi²¿·Ö
+## åŸºäºè°ƒç”¨apiçš„apiéƒ¨åˆ†
 
-±¾²¿·Ö»ùÓÚAPIÍ¼Áé»úÆ÷ÈË£¬ÀûÓÃrequestsºÍjson¿âÊµÏÖAPI½»»¥
+æœ¬éƒ¨åˆ†åŸºäºAPIå›¾çµæœºå™¨äººï¼Œåˆ©ç”¨requestså’Œjsonåº“å®ç°APIäº¤äº’
 
-Í¼Áé»úÆ÷ÈË½éÉÜÈçÏÂ£º
+å›¾çµæœºå™¨äººä»‹ç»å¦‚ä¸‹ï¼š
 
-[ĞÂ½¨±êÇ©Ò³ (tuling123.com)](http://tuling123.com/help/h_cent_webapi.jhtml)
+[æ–°å»ºæ ‡ç­¾é¡µ (tuling123.com)](http://tuling123.com/help/h_cent_webapi.jhtml)
 
-ºËĞÄ´úÂëÈçÏÂ£º
+æ ¸å¿ƒä»£ç å¦‚ä¸‹ï¼š
 
 ```python
 #
@@ -226,9 +230,9 @@ def chat(text: str, user: str) -> str:
         }
     }
     raw = requests.post(API_URL,json.dumps(data))
-    records = json.loads(raw.text)['results']  # µÃµ½API·µ»ØµÄÒ»ÌõÌõ»Ø¸´
+    records = json.loads(raw.text)['results']  # å¾—åˆ°APIè¿”å›çš„ä¸€æ¡æ¡å›å¤
     # print(records)
-    ans = ''  # ×îÖÕµÄ½á¹û
+    ans = ''  # æœ€ç»ˆçš„ç»“æœ
 
     for record in records:
         restype = record['resultType']
@@ -236,7 +240,7 @@ def chat(text: str, user: str) -> str:
         if restype == 'url' or restype == 'text':
             ans += resval+'\n'
         else:
-            pass  # »òĞí¿ÉÒÔ¼Óµã¹¦ÄÜ
+            pass  # æˆ–è®¸å¯ä»¥åŠ ç‚¹åŠŸèƒ½
     return ans
 
 
@@ -247,26 +251,26 @@ if __name__ == '__main__':
 
 ```
 
-½²½âÒÑÔÚ×¢ÊÍ¸ø³ö£¬²»ÔÚ×¸Êö
+è®²è§£å·²åœ¨æ³¨é‡Šç»™å‡ºï¼Œä¸åœ¨èµ˜è¿°
 
-## GUI½çÃæ
+## GUIç•Œé¢
 
-»ùÓÚPyqt6¿ª·¢
+åŸºäºPyqt6å¼€å‘
 
-![½çÃæ](./image/pyqt%E7%95%8C%E9%9D%A2.png)
+![ç•Œé¢](./image/pyqt%E7%95%8C%E9%9D%A2.png)
 
-°üº¬Á½¸ö°´Å¥¡¢·¢ËÍ¿ò¡¢½ÓÊÜ¿ò¡¢Ä£Ê½Ñ¡Ôñ²Ëµ¥
+åŒ…å«ä¸¤ä¸ªæŒ‰é’®ã€å‘é€æ¡†ã€æ¥å—æ¡†ã€æ¨¡å¼é€‰æ‹©èœå•
 
-### °´Å¥Î»ÖÃ¶¨Òå
+### æŒ‰é’®ä½ç½®å®šä¹‰
 
-Èç´úÂëËùÊ¾ ·Ö±ğ¶¨Òå¸÷¸ö°´Å¥ºÍÎÄ±¾¿òÎ»ÖÃ
+å¦‚ä»£ç æ‰€ç¤º åˆ†åˆ«å®šä¹‰å„ä¸ªæŒ‰é’®å’Œæ–‡æœ¬æ¡†ä½ç½®
 
-lineÎªÁ½¸ö¶Ô»°¿òÖĞ¼äµÄ·Ö¸îÏß
+lineä¸ºä¸¤ä¸ªå¯¹è¯æ¡†ä¸­é—´çš„åˆ†å‰²çº¿
 
-Í¬Ê±ÉèÖÃÌáÊ¾ÏûÏ¢£¨Êó±ê·ÅÖÃÓÚ°´Å¥ÉÏÊ±µÄÌáÊ¾ĞÅÏ¢£©ÒÔ¼°¿ì½İ¼ü
+åŒæ—¶è®¾ç½®æç¤ºæ¶ˆæ¯ï¼ˆé¼ æ ‡æ”¾ç½®äºæŒ‰é’®ä¸Šæ—¶çš„æç¤ºä¿¡æ¯ï¼‰ä»¥åŠå¿«æ·é”®
 
 ```py
-# Ö÷´°¿Ú
+# ä¸»çª—å£
         ChattingBot.setObjectName("ChattingBot")
         ChattingBot.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(ChattingBot)
@@ -275,7 +279,7 @@ lineÎªÁ½¸ö¶Ô»°¿òÖĞ¼äµÄ·Ö¸îÏß
         self.Enter = QtWidgets.QPushButton(self.centralwidget)
         self.Enter.setGeometry(QtCore.QRect(457, 440, 81, 24))
         self.Enter.setObjectName("Enter")
-        self.Enter.setStatusTip('¿ì½İ¼üÎªCtrl+Enter')
+        self.Enter.setStatusTip('å¿«æ·é”®ä¸ºCtrl+Enter')
         self.OutputText = QtWidgets.QTextBrowser(self.centralwidget)
         self.OutputText.setGeometry(QtCore.QRect(71, 41, 471, 291))
         self.OutputText.setObjectName("OutputText")
@@ -293,17 +297,17 @@ lineÎªÁ½¸ö¶Ô»°¿òÖĞ¼äµÄ·Ö¸îÏß
         self.close = QtWidgets.QPushButton(self.centralwidget)
         self.close.setGeometry(QtCore.QRect(370, 440, 75, 24))
         self.close.setObjectName("close")
-        self.close.setStatusTip('¿ì½İ¼üÎªCtrl+Q')
+        self.close.setStatusTip('å¿«æ·é”®ä¸ºCtrl+Q')
 
         ChattingBot.setCentralWidget(self.centralwidget)
 ```
 
-### ²Ëµ¥À¸¶¨Òå
+### èœå•æ å®šä¹‰
 
-1. 0¼¶ºÍ1¼¶²Ëµ¥
+1. 0çº§å’Œ1çº§èœå•
 
 ```py
-# Ä£Ê½Ñ¡Ôñ×é¼ş
+# æ¨¡å¼é€‰æ‹©ç»„ä»¶
 
         self.menubar = QtWidgets.QMenuBar(ChattingBot)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
@@ -318,21 +322,21 @@ lineÎªÁ½¸ö¶Ô»°¿òÖĞ¼äµÄ·Ö¸îÏß
         ChattingBot.setStatusBar(self.statusbar)
 ```
 
-2. 2¼¶²Ëµ¥
+2. 2çº§èœå•
 
 ```py
-# Èı´óÄ£Ê½
-        # Ä¬ÈÏÊÇdlÄ£Ê½
+# ä¸‰å¤§æ¨¡å¼
+        # é»˜è®¤æ˜¯dlæ¨¡å¼
         self.basic = QtGui.QAction(ChattingBot)
         self.basic.setCheckable(True)
         self.basic.setChecked(False)
         self.basic.setObjectName("basic")
-        self.basic.setStatusTip('»ùÓÚ×Ö·û´®Æ¥ÅäÊµÏÖ')
+        self.basic.setStatusTip('åŸºäºå­—ç¬¦ä¸²åŒ¹é…å®ç°')
         self.DeepLearning = QtGui.QAction(ChattingBot)
         self.DeepLearning.setCheckable(True)
         self.DeepLearning.setChecked(True)
         self.DeepLearning.setObjectName("DeepLearning")
-        self.DeepLearning.setStatusTip('»ùÓÚPytorchÊµÏÖ')
+        self.DeepLearning.setStatusTip('åŸºäºPytorchå®ç°')
         self.api = QtGui.QAction(ChattingBot)
         self.api.setCheckable(True)
         self.api.setChecked(False)
@@ -344,78 +348,78 @@ lineÎªÁ½¸ö¶Ô»°¿òÖĞ¼äµÄ·Ö¸îÏß
         self.menubar.addAction(self.options.menuAction())
 ```
 
-### °´Å¥Ãû×Ö¡¢ÌáÊ¾·û¡¢¿ì½İ¼ü¶¨Òå
+### æŒ‰é’®åå­—ã€æç¤ºç¬¦ã€å¿«æ·é”®å®šä¹‰
 
-1. setTextÎª°´Å¥ÉÏÏÔÊ¾µÄ×Ö·û´®
-2. setTitleÎª²Ëµ¥ÉÏÏÔÊ¾µÄ×Ö·û´®
-3. setToolTipÎªÊó±ê·ÅÔÚÄ£Ê½Ñ¡ÔñÉÏµÄÊ±ºò£¬×óÏÂ½Ç³öÏÖµÄÌáÊ¾ĞÅÏ¢£¨°´Å¥µÄÌáÊ¾ÔÚÇ°Ãæ£©
+1. setTextä¸ºæŒ‰é’®ä¸Šæ˜¾ç¤ºçš„å­—ç¬¦ä¸²
+2. setTitleä¸ºèœå•ä¸Šæ˜¾ç¤ºçš„å­—ç¬¦ä¸²
+3. setToolTipä¸ºé¼ æ ‡æ”¾åœ¨æ¨¡å¼é€‰æ‹©ä¸Šçš„æ—¶å€™ï¼Œå·¦ä¸‹è§’å‡ºç°çš„æç¤ºä¿¡æ¯ï¼ˆæŒ‰é’®çš„æç¤ºåœ¨å‰é¢ï¼‰
 ```py
 def retranslateUi(self, ChattingBot):
-        """¸ºÔğ±êÇ©Ãû×Ö"""
+        """è´Ÿè´£æ ‡ç­¾åå­—"""
         _translate = QtCore.QCoreApplication.translate
         ChattingBot.setWindowTitle(_translate("ChattingBot", "MainWindow"))
-        self.Enter.setText(_translate("ChattingBot", "·¢ËÍ"))
+        self.Enter.setText(_translate("ChattingBot", "å‘é€"))
         self.Enter.setShortcut(_translate("ChattingBot", "Ctrl+Return"))
-        self.close.setText(_translate("ChattingBot", "¹Ø±Õ"))
+        self.close.setText(_translate("ChattingBot", "å…³é—­"))
         self.close.setShortcut(_translate("ChattingBot", "Ctrl+Q"))
         self.options.setTitle(_translate("ChattingBot", "settings"))
         self.mode.setTitle(_translate("ChattingBot", "mode"))
         self.basic.setText(_translate("ChattingBot", "basic"))
-        self.basic.setToolTip(_translate("ChattingBot", "»ùÓÚ×Ö·û´®Æ¥ÅäÊµÏÖ"))
+        self.basic.setToolTip(_translate("ChattingBot", "åŸºäºå­—ç¬¦ä¸²åŒ¹é…å®ç°"))
         self.DeepLearning.setText(_translate("ChattingBot", "DeepLearning"))
-        self.DeepLearning.setToolTip(_translate("ChattingBot", "»ùÓÚPytorchÊµÏÖ"))
+        self.DeepLearning.setToolTip(_translate("ChattingBot", "åŸºäºPytorchå®ç°"))
         self.api.setText(_translate("ChattingBot", "api"))
-        self.api.setToolTip(_translate("ChattingBot", "»ùÓÚAPIµ÷ÓÃÊµÏÖ"))
+        self.api.setToolTip(_translate("ChattingBot", "åŸºäºAPIè°ƒç”¨å®ç°"))
 ```
 
-### °´Å¥ÊÂ¼ş¶¨Òå
+### æŒ‰é’®äº‹ä»¶å®šä¹‰
 
 
-ĞèÒª×¢Òâ ´«µİ²ÎÊı±ØĞëÊ¹ÓÃlambdaÒşÊ½º¯Êı´«µİ ²»È»ÎŞ·¨³É¹¦´«µİ
+éœ€è¦æ³¨æ„ ä¼ é€’å‚æ•°å¿…é¡»ä½¿ç”¨lambdaéšå¼å‡½æ•°ä¼ é€’ ä¸ç„¶æ— æ³•æˆåŠŸä¼ é€’
 ```py
  self.retranslateUi(ChattingBot)
-        # °´Å¥ÊÂ¼ş¶¨Òå
+        # æŒ‰é’®äº‹ä»¶å®šä¹‰
         # self.Enter.clicked['bool'].connect(lambda: self.buttonClicked(ChattingBot))
         self.Enter.clicked['bool'].connect(self.chatting)
         self.Enter.clicked['bool'].connect(self.InputText.clear)
-        self.close.clicked['bool'].connect(ChattingBot.close)  # Ö±½Ó¹Ø±Õµ±Ç°´°¿Ú
-        # °´ÏÂºó±£Ö¤Ö»ÓĞÒ»¸ö°´Å¥ÁÁÆğ
+        self.close.clicked['bool'].connect(ChattingBot.close)  # ç›´æ¥å…³é—­å½“å‰çª—å£
+        # æŒ‰ä¸‹åä¿è¯åªæœ‰ä¸€ä¸ªæŒ‰é’®äº®èµ·
         self.basic.triggered.connect(lambda: self.mode_select(ChattingBot))
         self.DeepLearning.triggered.connect(lambda: self.mode_select(ChattingBot))
         self.api.triggered.connect(lambda: self.mode_select(ChattingBot))
         # QtCore.QMetaObject.connectSlotsByName(ChattingBot)
 ```
 
-### ÆäËûĞŞ¸Ä
+### å…¶ä»–ä¿®æ”¹
 
-ÓÉÓÚGUI½çÃæÎª×îÖÕ¶Ô»°µÄ½çÃæ ËùÒÔĞèÒª×ö³öÒ»Ğ©ĞŞ¸Ä
+ç”±äºGUIç•Œé¢ä¸ºæœ€ç»ˆå¯¹è¯çš„ç•Œé¢ æ‰€ä»¥éœ€è¦åšå‡ºä¸€äº›ä¿®æ”¹
 
-- È·±£Ö»ÓĞÒ»¸öÄ£Ê½ÆôÓÃ
+- ç¡®ä¿åªæœ‰ä¸€ä¸ªæ¨¡å¼å¯ç”¨
   ```py
   def mode_select(self, ChattingBot):
-        """Ñ¡ÔñÄ£Ê½Ê±È·±£Ö»ÓĞÒ»¸öÄ£Ê½ÔÚÊ¹ÓÃ"""
+        """é€‰æ‹©æ¨¡å¼æ—¶ç¡®ä¿åªæœ‰ä¸€ä¸ªæ¨¡å¼åœ¨ä½¿ç”¨"""
         sender = ChattingBot.sender()
         if sender == self.basic:
-            if not self.basic.isChecked():  # °ÑÎ¨Ò»Ò»¸öÁÁ×ÅµÄ°´ÁËÏÂÈ¥
+            if not self.basic.isChecked():  # æŠŠå”¯ä¸€ä¸€ä¸ªäº®ç€çš„æŒ‰äº†ä¸‹å»
                 self.basic.setChecked(True)
             else:
                 self.DeepLearning.setChecked(False)
                 self.api.setChecked(False)
         if sender == self.DeepLearning:
-            if not self.DeepLearning.isChecked():  # °ÑÎ¨Ò»Ò»¸öÁÁ×ÅµÄ°´ÁËÏÂÈ¥
+            if not self.DeepLearning.isChecked():  # æŠŠå”¯ä¸€ä¸€ä¸ªäº®ç€çš„æŒ‰äº†ä¸‹å»
                 self.DeepLearning.setChecked(True)
             else:
                 self.basic.setChecked(False)
                 self.api.setChecked(False)
         if sender == self.api:
-            if not self.api.isChecked():  # °ÑÎ¨Ò»Ò»¸öÁÁ×ÅµÄ°´ÁËÏÂÈ¥
+            if not self.api.isChecked():  # æŠŠå”¯ä¸€ä¸€ä¸ªäº®ç€çš„æŒ‰äº†ä¸‹å»
                 self.api.setChecked(True)
             else:
                 self.basic.setChecked(False)
                 self.DeepLearning.setChecked(False)
   ```
 
-- ×´Ì¬»ñÈ¡
+- çŠ¶æ€è·å–
   ```py
   def getState(self) -> int:
         if self.api.isChecked():
@@ -426,16 +430,16 @@ def retranslateUi(self, ChattingBot):
             return 1
   ```
 
-- ¶Ô»°
+- å¯¹è¯
   ```py
   def chatting(self):
-        """×÷ÓÃÊÇ·¢ËÍinputµÄÎÄ±¾µ½ÆäËûÄ£¿é"""
+        """ä½œç”¨æ˜¯å‘é€inputçš„æ–‡æœ¬åˆ°å…¶ä»–æ¨¡å—"""
         content = self.InputText.toPlainText()
-        # TODO£º ½ÓÈëÆäËûÄ£¿éÒÔÍê³É×îÖÕÍ¨ĞÅ
+        # TODOï¼š æ¥å…¥å…¶ä»–æ¨¡å—ä»¥å®Œæˆæœ€ç»ˆé€šä¿¡
         state = self.getState()
         result = ''
         if state == 1:
-            self.OutputText.setText('ÓÉÓÚ±àÂëÎÊÌâ ¸ÃÄ£¿é²»¿ÉÓÃ')
+            self.OutputText.setText('ç”±äºç¼–ç é—®é¢˜ è¯¥æ¨¡å—ä¸å¯ç”¨')
             return
         if state == 2:
             if is_en(content[0]):
@@ -445,7 +449,7 @@ def retranslateUi(self, ChattingBot):
         if state == 3:
             result = apiChat(content)
 
-        ans = 'You:' + content + '\nBot:' + result  # ansÎª×îÖÕ»Ø¸´
+        ans = 'You:' + content + '\nBot:' + result  # ansä¸ºæœ€ç»ˆå›å¤
         self.OutputText.setText(ans)
 
   def apiChat(x: str) -> str:
@@ -453,12 +457,12 @@ def retranslateUi(self, ChattingBot):
 
 
   def DLEChat(x: str) -> str:
-      """Ó¢ÎÄ°æÉî¶ÈÑ§Ï°"""
+      """è‹±æ–‡ç‰ˆæ·±åº¦å­¦ä¹ """
       return Etalk.talk(x)
 
 
   def DLCChat(x: str) -> str:
-      """ÖĞÎÄ°æÉî¶ÈÑ§Ï°"""
+      """ä¸­æ–‡ç‰ˆæ·±åº¦å­¦ä¹ """
       return Ctalk.talk(x)
 
 
@@ -469,12 +473,12 @@ def retranslateUi(self, ChattingBot):
           return False
   ```
 
-Ğ§¹ûÕ¹Ê¾:
-![ÁÄÌì½á¹û](./image/%E8%81%8A%E5%A4%A9%E7%BB%93%E6%9E%9C1.png)
+æ•ˆæœå±•ç¤º:
+![èŠå¤©ç»“æœ](./image/%E8%81%8A%E5%A4%A9%E7%BB%93%E6%9E%9C1.png)
 
-## html½çÃæ
+## htmlç•Œé¢
 
-### Ç°¶Ë²¿·Ö
+### å‰ç«¯éƒ¨åˆ†
 
 
 ```html
@@ -495,7 +499,7 @@ def retranslateUi(self, ChattingBot):
                 <v-container fluid class="pa-0">
                     <v-row class="text-center">
                         <v-col class="my-12" cols="12">
-                            <!-- ±êÌâ -->
+                            <!-- æ ‡é¢˜ -->
                             <h1 class="display-2 font-weight-bold my-6 lime--text text--lighten-5">Chatbot</h1>
                         </v-col>
                     </v-row>
@@ -505,15 +509,15 @@ def retranslateUi(self, ChattingBot):
                             <v-card class="mx-auto">
                                 <v-container>
 
-                                    <!-- Ä£Ê½Ñ¡Ôñ -->
+                                    <!-- æ¨¡å¼é€‰æ‹© -->
                                     <v-select :items="items" v-model="mode" label="Mode"></v-select>
 
-                                    <!-- ÎÄ±¾ÊäÈë -->
+                                    <!-- æ–‡æœ¬è¾“å…¥ -->
                                     <v-textarea v-model="msg" clearable clear-icon="mdi-close-circle"
                                         label="Input text here">
                                     </v-textarea>
 
-                                    <!-- ·¢ËÍ°´Å¥ -->
+                                    <!-- å‘é€æŒ‰é’® -->
                                     <v-card-actions>
                                         <v-btn color="deep-purple lighten-2" text @click="send">
                                             Send
@@ -527,7 +531,7 @@ def retranslateUi(self, ChattingBot):
                         <v-col cols="3"></v-col>
                     </v-row>
 
-                    <!-- »úÆ÷ÈË»Ø¸´£¬³õÊ¼×´¿öÏÂ²»ÏÔÊ¾ -->
+                    <!-- æœºå™¨äººå›å¤ï¼Œåˆå§‹çŠ¶å†µä¸‹ä¸æ˜¾ç¤º -->
                     <v-row v-if="show_response">
                         <v-col cols="3"></v-col>
                         <v-col cols="6" sm="6" justify="center">
@@ -535,7 +539,7 @@ def retranslateUi(self, ChattingBot):
                                 <v-card-text class="pb-0">
 
 
-                                    <!-- »úÆ÷ÈË»Ø¸´ -->
+                                    <!-- æœºå™¨äººå›å¤ -->
                                     <p class="subtitle-1">
                                         {{response}}
                                     </p>
@@ -552,13 +556,13 @@ def retranslateUi(self, ChattingBot):
     </div>
 
     <style>
-        /* ÉèÖÃ±³¾° */
+        /* è®¾ç½®èƒŒæ™¯ */
         #app {
             background: url('resource/bg2.png') no-repeat center;
             background-size: cover;
         }
     </style>
-    <!-- ÒıÓÃµÄ´úÂë -->
+    <!-- å¼•ç”¨çš„ä»£ç  -->
     <script src="resource/jquery.min.js"></script>
     <script src="resource/vue.js"></script>
     <script src="resource/vuetify.js"></script>
@@ -568,19 +572,19 @@ def retranslateUi(self, ChattingBot):
         new Vue({
             el: '#app',
             vuetify: new Vuetify({
-                theme: { dark: true },//ÉèÖÃºÚÉ«Ö÷Ìâ
+                theme: { dark: true },//è®¾ç½®é»‘è‰²ä¸»é¢˜
             }),
 
             data: () => ({
-                items: ["Default", "NeuralNetwork", "API"],//Ä£Ê½
-                mode: "Default",//ËùÑ¡µÄÄ£Ê½£¬Ä¬ÈÏÎªDefault
-                msg: "Hello",//ÓÃ»§ÊäÈë£¬Ä¬ÈÏÎªHello
-                response: "",//ºóÌ¨·µ»ØµÄÊı¾İ
-                show_response: false,//ÊÇ·ñÏÔÊ¾»úÆ÷ÈË»Ø¸´µÄÄÇ¸ö×é¼ş£¬ÓÃ»§»¹Ã»·¢ĞÅÏ¢µÄÊ±ºò¾ÍÏÈ²»ÏÔÊ¾
+                items: ["Default", "NeuralNetwork", "API"],//æ¨¡å¼
+                mode: "Default",//æ‰€é€‰çš„æ¨¡å¼ï¼Œé»˜è®¤ä¸ºDefault
+                msg: "Hello",//ç”¨æˆ·è¾“å…¥ï¼Œé»˜è®¤ä¸ºHello
+                response: "",//åå°è¿”å›çš„æ•°æ®
+                show_response: false,//æ˜¯å¦æ˜¾ç¤ºæœºå™¨äººå›å¤çš„é‚£ä¸ªç»„ä»¶ï¼Œç”¨æˆ·è¿˜æ²¡å‘ä¿¡æ¯çš„æ—¶å€™å°±å…ˆä¸æ˜¾ç¤º
             }),
             methods: {
-                send() {//·¢ÏûÏ¢
-                    this.show_response = true//¿ªÊ¼ÏÔÊ¾»úÆ÷ÈËµÄ»Ø¸´
+                send() {//å‘æ¶ˆæ¯
+                    this.show_response = true//å¼€å§‹æ˜¾ç¤ºæœºå™¨äººçš„å›å¤
                     var that = this
                     $.get("/chat", { msg: this.msg, mode: this.mode }).then(data => that.response = data)
                     console.log(this.mode)
@@ -594,9 +598,9 @@ def retranslateUi(self, ChattingBot):
 </html>
 ```
 
-ÒıÓÃµÄcssµÈ´úÂëÔÚresourcesÎÄ¼ş¼ĞÖĞ£¬´úÂë½²½âÔÚ×¢ÊÍ¸ø³ö
+å¼•ç”¨çš„cssç­‰ä»£ç åœ¨resourcesæ–‡ä»¶å¤¹ä¸­ï¼Œä»£ç è®²è§£åœ¨æ³¨é‡Šç»™å‡º
 
-### ºó¶Ë²¿·Ö
+### åç«¯éƒ¨åˆ†
 
 ```python
 #
@@ -630,13 +634,13 @@ def chat():
     print(f'mode {mode}')
     print(f'message:\n{msg}')
     if mode=='Default':
-        # Ä¬ÈÏÄ£Ê½ÎªÓ¢ÎÄÉî¶ÈÑ§Ï°
+        # é»˜è®¤æ¨¡å¼ä¸ºè‹±æ–‡æ·±åº¦å­¦ä¹ 
         reply=default(msg)
     elif mode=='NeuralNetwork':
         reply=nn(msg)
     else:
         reply=api(msg)
-    # ºó¶Ë´òÓ¡»Ø¸´ÓÃÓÚdebug
+    # åç«¯æ‰“å°å›å¤ç”¨äºdebug
     print(f'reply:\n{reply}')
     return reply
 
@@ -647,12 +651,12 @@ def send_report(path):
 
 # handle default
 def default(msg):
-    #Ó¢ÎÄÉî¶ÈÑ§Ï°
+    #è‹±æ–‡æ·±åº¦å­¦ä¹ 
     return Etalk.talk(msg)
 
 # handle neural network
 def nn(msg):
-    #ÖĞÎÄÉî¶ÈÑ§Ï°
+    #ä¸­æ–‡æ·±åº¦å­¦ä¹ 
     return Ctalk.talk(msg)
 
 #handle api
@@ -666,4 +670,4 @@ if __name__=='__main__':
     print('running on 127.0.0.1:8765')
 ```
 
-Æô¶¯ºó¶Ëºó»áÔÚ±¾µØ8765¶Ë¿ÚÔËĞĞ£¬ÓÃflask¿âÊµÏÖÇ°ºó¶Ë½»»¥£¬½²½âÒÑÔÚ×¢ÊÍ¸ø³ö
+å¯åŠ¨åç«¯åä¼šåœ¨æœ¬åœ°8765ç«¯å£è¿è¡Œï¼Œç”¨flaskåº“å®ç°å‰åç«¯äº¤äº’ï¼Œè®²è§£å·²åœ¨æ³¨é‡Šç»™å‡º
