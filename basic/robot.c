@@ -85,7 +85,8 @@ int IO()
 	gets(string); //获取聊天内容 
 	printf("\n");
 	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY);
-
+	/*转换字符串编码
+	string=trans(string);*/
 	if(match(string,"不"))
 	{
 		if(match(string,"不可能")) 
