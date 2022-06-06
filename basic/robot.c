@@ -384,13 +384,10 @@ int IO()
 
 void settings(void)
  {
- 	system("title 聊天机器人（基础）");			//窗口标题
-	system("mode con: cols=38 lines=30");		//改变窗口大小 
  	system("cls");    							//清屏 		
 	//gotoxy(0,0); 
  	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_INTENSITY); //设置控制台字体颜色 
-	
 	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY|COMMON_LVB_GRID_HORIZONTAL); //机器人气泡   
 	printf( "come on!let's go:                     \n\n" );
  	return;
@@ -399,7 +396,7 @@ void settings(void)
  int main(){
 	settings();
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY);
+	SetConsoleTextAttribute(hConsole,FOREGROUND_GREEN|FOREGROUND_INTENSITY);//用户气泡
 	while(1)
 	{
 		if(IO())
