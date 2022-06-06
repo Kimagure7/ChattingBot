@@ -187,7 +187,7 @@ int IO()
 			if( ! message ) 
 			{
 				printf("激情度娘 在线回答\n\n");
-				system("start https://www.baidu.com/");
+				system("start https://www.baidu.com/");		//百度一下，你就知道（ε=ε=ε=┏(゜ロ゜;)┛）
 				printf("送给你一个万能的网址\n\n");
 			}
 			else if( 1 == message ) 
@@ -199,7 +199,7 @@ int IO()
 			else if( 2 == message ) 
 			{
 				printf("小冰 快来救我！\n\n");
-				system("start https://cn.bing.com/"); 			//打开【百度一下，你就知道】  	
+				system("start https://cn.bing.com/"); 		
 				printf("下面请微软小冰为你回答（逃）\n\n");
 			
 			 } 
