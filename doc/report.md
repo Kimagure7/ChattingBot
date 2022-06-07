@@ -467,7 +467,7 @@ def retranslateUi(self, ChattingBot):
 由于GUI界面为最终对话的界面 所以需要做出一些修改
 
 - 确保只有一个模式启用
-  ```py
+```py
   def mode_select(self, ChattingBot):
         """选择模式时确保只有一个模式在使用"""
         sender = ChattingBot.sender()
@@ -489,7 +489,7 @@ def retranslateUi(self, ChattingBot):
             else:
                 self.basic.setChecked(False)
                 self.DeepLearning.setChecked(False)
-  ```
+```
 
 - 状态获取
   ```py
@@ -503,7 +503,7 @@ def retranslateUi(self, ChattingBot):
   ```
 
 - 对话
-  ```py
+  ```python
   def chatting(self):
         """作用是发送input的文本到其他模块"""
         content = self.InputText.toPlainText()
@@ -520,38 +520,33 @@ def retranslateUi(self, ChattingBot):
                 result = DLCChat(content)
         if state == 3:
             result = apiChat(content)
-
+  
         ans = 'You:' + content + '\nBot:' + result  # ans为最终回复
         self.OutputText.setText(ans)
-
+  
   def apiChat(x: str) -> str:
       return bot.chat(x, 'me')
-
-
+  
   def DLEChat(x: str) -> str:
       """英文版深度学习"""
       return Etalk.talk(x)
-
-
+  
   def DLCChat(x: str) -> str:
       """中文版深度学习"""
       return Ctalk.talk(x)
-
-
+  
   def is_en(w) -> bool:
       if 'a' <= w <= 'z' or 'A' <= w <= 'Z':
           return True
       else:
           return False
   ```
-
-效果展示:
-![聊天结果](./image/%E8%81%8A%E5%A4%A9%E7%BB%93%E6%9E%9C1.png)
+  效果展示:
+  ![聊天结果](./image/聊天结果1.png)
 
 ## html界面
 
 ### 前端部分
-
 
 ```html
 <!DOCTYPE html>
@@ -652,7 +647,7 @@ def retranslateUi(self, ChattingBot):
                 mode: "Default",//所选的模式，默认为Default
                 msg: "Hello",//用户输入，默认为Hello
                 response: "",//后台返回的数据
-                show_response: false,//是否显示机器人回复的那个组件，用户还没发信息的时候就先不显示
+                show_response: false,//是否显示机器人回复的那个组件，用户还没发信息的时候就先不显示回答框
             }),
             methods: {
                 send() {//发消息
@@ -743,3 +738,24 @@ if __name__=='__main__':
 ```
 
 启动后端后会在本地8765端口运行，用flask库实现前后端交互，讲解已在注释给出
+
+### html界面展示
+
+#### 后端信息
+
+![后端](.\image\后端.png)
+
+#### 选择模式
+
+![选择模式](.\image\选择模式.jpg)
+
+默认为英文深度学习，NeuralNetwork为中文深度学习，API为图灵机器人
+
+#### 整体界面
+
+![html界面](.\image\html界面.jpg)
+
+#### API回答示例
+
+![API回答](.\image\API回答.jpg)
+
