@@ -31,7 +31,7 @@
   - [GUI界面](#gui界面)
     - [按钮位置定义](#按钮位置定义)
     - [菜单栏定义](#菜单栏定义)
-    - [按钮名字、提示符、快捷键定义](#按钮名字提示符快捷键定义)
+    - [按钮名字、提示符、快捷键定义](#按钮名字-提示符-快捷键定义)
     - [按钮事件定义](#按钮事件定义)
     - [其他修改](#其他修改)
   - [html界面](#html界面)
@@ -174,11 +174,11 @@ a b c \t e f g
 
 教程中的大致模型如下
 
-![](https://pytorch.org/tutorials/_images/seq2seq_ts.png)
+![](image/seq2seq_ts.png)
 
 同时，`encoder` 和 `decoder` 中的单向 `GUR` 改用双向 `GUR` ，可以直接调用 `pytorch` 的 `nn.GRU` 组件实现，并且在 `decoder` 中使用“注意力机制”，允许解码器只关注输入序列的某些部分，以提高输出的准确率
 
-![](https://pytorch.org/tutorials/_images/global_attn.png)
+![](image/global_attn.png)
 
 #### 定义训练过程
 
