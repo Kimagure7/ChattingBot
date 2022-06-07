@@ -1,5 +1,6 @@
 # ChattingBot 实验报告
 
+[这是我们的github仓库](https://github.com/Kimagure7/ChattingBot)
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
@@ -7,10 +8,11 @@
 
 - [ChattingBot 实验报告](#chattingbot-实验报告)
   - [组员](#组员)
+  - [代码结构](#代码结构)
   - [基于字符串匹配的basic部分](#基于字符串匹配的basic部分)
-    - [基于字符串匹配的基础I/O](#基于字符串匹配的基础I/O)
-    - [Windows系统下的气泡设计与基于问答的api调用](#Windows系统下的气泡设计与基于问答的api调用)
-    - [Windows系统下将输入转为utf-8编码的功能](#Windows系统下将输入转为utf-8编码的功能)
+    - [基于字符串匹配的基础I/O](#基于字符串匹配的基础io)
+    - [Windows系统下的气泡设计与基于问答的api调用](#windows系统下的气泡设计与基于问答的api调用)
+    - [Windows系统下将输入转为utf-8编码的功能](#windows系统下将输入转为utf-8编码的功能)
   - [基于Pytorch的深度学习部分](#基于pytorch的深度学习部分)
     - [了解深度学习原理及Seq2Seq模型](#了解深度学习原理及seq2seq模型)
     - [英文聊天机器人](#英文聊天机器人)
@@ -58,6 +60,21 @@
   - 独立完成GUI界面
   - 修改Pytorch模块接口 使其能被GUI调用
   - 参与学习Pytorch原理
+
+## 代码结构
+
+1. basic部分
+   1. linux_robot.c对应linux终端下运行的基础部分
+   2. robot.c是做了转码处理的linux——robot.c 但转码部分已被注释
+2. pytorch部分
+   1. Ctalk和Etalk分别对应中英文对话 talk函数 一问一答
+   2. 两个train则是对语料集进行训练然后将结果暂存供talk读取
+   3. header是他们的公共头文件
+3. api
+   1. bot.py就是
+4. html
+   1. index.html + resource构成网页主题
+   2. backen.py实现网页后端功能
 
 ## 基于字符串匹配的basic部分
 
